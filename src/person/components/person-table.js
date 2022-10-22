@@ -22,7 +22,7 @@ function PersonTable(props) {
         </thead>
         <tbody>
           {props.tableData.map((person, index) => (
-            <tr>
+            <tr id={index}>
               <td className="center-client-table">{index + 1}</td>
               <td className="center-client-table">{person.firstName}</td>
               <td className="center-client-table">{person.lastName}</td>

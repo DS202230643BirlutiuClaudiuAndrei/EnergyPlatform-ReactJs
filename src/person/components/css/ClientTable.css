@@ -4,3 +4,12 @@
 .center-client-table{
     text-align: center;
 }
+
+.background{
+    background-position: center;
+    background-size: cover;
+    background-repeat: "no-repeat";
+    height: 1000px;
+
+    background-image: url("../../../commons/images/background.jpg");
+}

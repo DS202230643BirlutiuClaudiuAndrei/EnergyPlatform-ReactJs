@@ -21,7 +21,7 @@ const textStyle = {
 function NavigationBar() {
   return (
     <div>
-      <Navbar collapseOnSelect color="secondary" light expand="md" fixed="top">
+      <Navbar collapseOnSelect color="dark" light expand="md" fixed="top">
         <NavbarBrand href="/">
           <img src={logo} width={"50"} height={"35"} />
         </NavbarBrand>
