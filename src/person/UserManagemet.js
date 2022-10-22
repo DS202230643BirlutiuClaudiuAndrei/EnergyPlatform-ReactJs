@@ -66,6 +66,7 @@ function UserManagemet(props) {
   }
 
   const paginationStyle = {
+    textAlign: "venter",
     backgroundColor: "unset",
   };
 
@@ -136,6 +137,7 @@ function UserManagemet(props) {
             boundaryCount={1}
             variant="outlined"
             shape="primary"
+            color="dark"
             //onChange={handlePageChange}
           />
         </div>
