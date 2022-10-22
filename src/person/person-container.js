@@ -14,6 +14,7 @@ import APIResponseErrorMessage from "../commons/errorhandling/api-response-error
 import PersonForm from "./components/person-form";
 import * as API_USERS from "./api/person-api";
 import PersonTable from "./components/person-table";
+import "./css/ClientManagement.css";
 
 function PersonContainer(props) {
   const [isSelected, setIsSelected] = useState(false);
@@ -43,8 +44,8 @@ function PersonContainer(props) {
     const endpoint = "/client";
     return API_USERS.getPersons(endpoint, config, (result, status, err) => {
       if (result !== null && status === 200) {
-        console.log(result);
-        setTableData((tableData) => result);
+        console.log(result.energyUsers);
+        setTableData((tableData) => result.energyUsers);
         setIsLoaded((isLoaded) => true);
       } else {
         setError((error) => ({ status: status, errorMessage: err }));
@@ -65,21 +66,27 @@ function PersonContainer(props) {
 
   return (
     <div>
-      <CardHeader>
+      <CardHeader style={{ "margin-top": "100px", "padding-left": "50%" }}>
         <strong> Person Management </strong>
       </CardHeader>
-      <Card>
-        <br />
-        <Row>
-          <Col sm={{ size: "8", offset: 1 }}>
+      <Card
+        style={{
+          height: "100%",
+          width: "100%",
+          "justify-content": "center",
+          "text-align": "center",
+        }}
+      >
+        <Row style={{ "margin-top": "10px" }}>
+          <Col sm={{ size: "6", offset: 0 }}>
             <Button color="primary" onClick={toggleForm}>
               Add Person{" "}
             </Button>
           </Col>
         </Row>
-        <br />
-        <Row>
-          <Col sm={{ size: "8", offset: 1 }}>
+
+        <Row style={{ "padding-top": "10px" }}>
+          <Col sm={{ size: "8", offset: 2 }}>
             {isLoaded && <PersonTable tableData={tableData} />}
             {error.status > 0 && (
               <APIResponseErrorMessage
