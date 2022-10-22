@@ -1,0 +1,8 @@
+.background{
+  background-position: center;
+  background-size: cover;
+  background-repeat: "no-repeat";
+  height: 1000px;
+
+  background-image: url("../images/background.jpg");
+}

@@ -14,7 +14,8 @@ import APIResponseErrorMessage from "../commons/errorhandling/api-response-error
 import PersonForm from "./components/person-form";
 import * as API_USERS from "./api/person-api";
 import PersonTable from "./components/person-table";
-import * as STYLE from "../commons/styles/BackgroundStyle";
+import "../commons/styles/BackgroundStyle.css";
+import Pagination from "@material-ui/lab/Pagination";
 
 function UserManagemet(props) {
   const [isSelected, setIsSelected] = useState(false);
@@ -63,6 +64,10 @@ function UserManagemet(props) {
     toggleForm();
     fetchPersons();
   }
+
+  const paginationStyle = {
+    backgroundColor: "unset",
+  };
 
   return (
     <div class="Container" className="background">
@@ -117,13 +122,33 @@ function UserManagemet(props) {
           <div class="col-sm-2" />
         </div>
 
-        <Modal isOpen={isSelected} toggle={toggleForm} size="lg">
-          <ModalHeader toggle={toggleForm}> Add Person: </ModalHeader>
-          <ModalBody>
-            <PersonForm reloadHandler={reload} />
-          </ModalBody>
-        </Modal>
+        <div class="col-sm-2" />
       </div>
+      <div class="row">
+        <div class="col-sm-2" />
+        <div class="col-sm-8" style={{ "text-align": "center" }}>
+          <Pagination
+            style={paginationStyle}
+            //className="my-3"
+            count={200}
+            page={1}
+            siblingCount={1}
+            boundaryCount={1}
+            variant="outlined"
+            shape="primary"
+            //onChange={handlePageChange}
+          />
+        </div>
+
+        <div class="col-sm-2" />
+      </div>
+
+      <Modal isOpen={isSelected} toggle={toggleForm} size="lg">
+        <ModalHeader toggle={toggleForm}> Add Person: </ModalHeader>
+        <ModalBody>
+          <PersonForm reloadHandler={reload} />
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
