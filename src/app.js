@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavigationBar from "./navigation-bar";
 import Home from "./home/home";
 import PersonContainer from "./person/UserManagemet";
+import LoginPage from "./login/LoginPage";
+
 import ErrorPage from "./commons/errorhandling/error-page";
 import styles from "./commons/styles/project-style.css";
 
@@ -21,6 +23,7 @@ function App() {
             <Route exact path="/" render={() => <Home />} />
 
             <Route exact path="/person" render={() => <PersonContainer />} />
+            <Route exact path="/login" render={() => <LoginPage />} />
 
             {/*Error*/}
             <Route exact path="/error" render={() => <ErrorPage />} />
