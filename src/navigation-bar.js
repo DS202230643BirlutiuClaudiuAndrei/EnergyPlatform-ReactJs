@@ -11,7 +11,7 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 
-import logo from "./commons/images/icon.png";
+import logo from "./commons/images/title.png";
 
 const textStyle = {
   color: "white",

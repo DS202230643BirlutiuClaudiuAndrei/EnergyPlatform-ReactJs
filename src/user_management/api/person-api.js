@@ -3,7 +3,7 @@ import RestApiClient from "../../commons/api/rest-client";
 
 const endpoint = {
   get_clients: "/client",
-  create_client: "/admin/create-client",
+  create_client: "/admin/client",
 };
 
 function getPersons(token, params, callback) {
