@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 
 import Validate from "./validators/Validator.js";
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
+import * as API_USERS from "./api/LoginApi";
 
 const formControlsInit = {
   email: {
@@ -60,25 +61,32 @@ function LoginForm(props) {
     setFormIsValid((formIsValidPrev) => formIsValid);
   }
 
-  function registerPerson(person) {
-    /*return API_USERS.postPerson(person, (result, status, err) => {
-      if (result !== null && (status === 200 || status === 201)) {
-        console.log("Successfully inserted person with id: " + result);
-        props.reloadHandler();
+  function loginUser(loginDto) {
+    const config = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginDto),
+    };
+    const endpoint = "/login";
+
+    return API_USERS.postLogin(endpoint, config, (result, status, err) => {
+      if (result !== null && status === 200) {
+        console.log(result);
       } else {
         setError((error) => ({ status: status, errorMessage: err }));
       }
-    });*/
+    });
   }
 
   function handleSubmit() {
-    let person = {
-      name: formControls.name.value,
+    let loginDto = {
       email: formControls.email.value,
-      age: formControls.age.value,
-      address: formControls.address.value,
+      password: formControls.password.value,
     };
-    registerPerson(person);
+    loginUser(loginDto);
   }
 
   return (
@@ -143,11 +151,7 @@ function LoginForm(props) {
       </Row>
       <Row style={{ "padding-top": "20px" }}>
         <Col sm={{ size: "4", offset: 4 }}>
-          <Button
-            type={"submit"}
-            disabled={!formIsValid}
-            onClick={handleSubmit}
-          >
+          <Button type={"submit"} onClick={handleSubmit}>
             {" "}
             Register{" "}
           </Button>
