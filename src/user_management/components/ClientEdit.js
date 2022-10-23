@@ -11,9 +11,9 @@ import { useCookies } from "react-cookie";
 function ClientEditForm(props) {
   const formControlsInit = {
     firstName: {
-      value: "",
-      placeholder: props.user.firtName,
-      valid: false,
+      value: props.user.firstName,
+      placeholder: props.user.firstName,
+      valid: true,
       touched: false,
       validationRules: {
         isRequired: true,
@@ -21,9 +21,9 @@ function ClientEditForm(props) {
       },
     },
     lastName: {
-      value: "",
+      value: props.user.lastName,
       placeholder: props.user.lastName,
-      valid: false,
+      valid: true,
       touched: false,
       validationRules: {
         isRequired: true,
@@ -32,9 +32,9 @@ function ClientEditForm(props) {
     },
 
     email: {
-      value: "",
+      value: props.user.email,
       placeholder: props.user.email,
-      valid: false,
+      valid: true,
       touched: false,
       validationRules: {
         emailValidator: true,
@@ -101,6 +101,7 @@ function ClientEditForm(props) {
       firstName: formControls.firstName.value,
       lastName: formControls.lastName.value,
       email: formControls.email.value,
+      id: props.user.id,
     };
     editClient(user_account);
   }

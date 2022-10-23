@@ -57,7 +57,7 @@ function UserManagemet(props) {
   function reload() {
     setIsLoaded((isLoaded) => false);
 
-    toggleForm();
+    setIsSelected(false);
     fetchPersons();
   }
 
@@ -119,7 +119,10 @@ function UserManagemet(props) {
           </div>
           <div class="row" style={{ "margin-top": "20px" }}>
             <div class="col-sm-12">
-              {isLoaded && <PersonTable tableData={tableData} />}
+              {isLoaded && (
+                <PersonTable tableData={tableData} reloadHandler={reload} />
+              )}
+
               {error.status > 0 && (
                 <APIResponseErrorMessage
                   errorStatus={error.status}

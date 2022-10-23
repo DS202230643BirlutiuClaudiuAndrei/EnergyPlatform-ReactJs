@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import Button from "react-bootstrap/Button";
 import "./css/ClientTable.css";
 import Table from "react-bootstrap/Table";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import ClientEditForm from "./ClientEdit";
 
 function PersonTable(props) {
+  //set current user to be displayed in modal
+  const [currentUser, setCurrentUser] = useState(null);
+
+  //edit modal
+  const [isEditSelected, setEditSelected] = useState(false);
+
+  function reloadFunction() {
+    props.reloadHandler();
+  }
+
+  function toggleEditModal(current) {
+    setCurrentUser(current);
+    setEditSelected((isSelected) => !isSelected);
+  }
+
   return (
     <div>
       <Table striped bordered hover variant="dark" color="primary">
@@ -32,7 +49,11 @@ function PersonTable(props) {
                 <Button variant="primary" className="btn-space-client">
                   View
                 </Button>
-                <Button variant="secondary" className="btn-space-client">
+                <Button
+                  variant="secondary"
+                  className="btn-space-client"
+                  onClick={() => toggleEditModal(person)}
+                >
                   Edit
                 </Button>
                 <Button variant="danger">Delete</Button>
@@ -41,6 +62,13 @@ function PersonTable(props) {
           ))}
         </tbody>
       </Table>
+
+      <Modal isOpen={isEditSelected} toggle={toggleEditModal} size="lg">
+        <ModalHeader toggle={toggleEditModal}> Edit Person: </ModalHeader>
+        <ModalBody>
+          <ClientEditForm user={currentUser} reloadHandler={reloadFunction} />
+        </ModalBody>
+      </Modal>
     </div>
   );
 }
