@@ -74,7 +74,7 @@ function LoginForm(props) {
   function processJwtToken(token) {
     if (token) {
       const { exp } = parseJwt(token);
-      const expires = new Date(exp * 10);
+      const expires = new Date(exp * 1000);
       setCookie("access_token", token, { path: "/", expires });
     }
     console.log(cookies);
