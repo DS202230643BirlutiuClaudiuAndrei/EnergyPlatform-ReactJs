@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, Redirect, useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { FormGroup, Input, Label } from "reactstrap";
 import Button from "react-bootstrap/Button";
@@ -6,6 +7,9 @@ import Button from "react-bootstrap/Button";
 import Validate from "./validators/Validator.js";
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import * as API_USERS from "./api/LoginApi";
+//for cookies
+import { useCookies } from "react-cookie";
+import parseJwt from "../commons/services/ParseJwtToken.js";
 
 const formControlsInit = {
   email: {
@@ -34,6 +38,12 @@ function LoginForm(props) {
   const [error, setError] = useState({ status: 0, errorMessage: null });
   const [formIsValid, setFormIsValid] = useState(false);
   const [formControls, setFormControls] = useState(formControlsInit);
+  //for login process
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "access_token",
+    "redirect_to",
+  ]);
+  const history = useHistory();
 
   function handleChange(event) {
     let name = event.target.name;
@@ -61,6 +71,18 @@ function LoginForm(props) {
     setFormIsValid((formIsValidPrev) => formIsValid);
   }
 
+  function processJwtToken(token) {
+    if (token) {
+      const { exp } = parseJwt(token);
+      const expires = new Date(exp * 10);
+      setCookie("access_token", token, { path: "/", expires });
+    }
+    console.log(cookies);
+    const to = cookies["redirect_to"] != null ? cookies["redirect_to"] : "/";
+    removeCookie("redirect_to", { path: "/" });
+    console.log({ to });
+    history.push("/");
+  }
   function loginUser(loginDto) {
     const config = {
       method: "POST",
@@ -74,7 +96,8 @@ function LoginForm(props) {
 
     return API_USERS.postLogin(endpoint, config, (result, status, err) => {
       if (result !== null && status === 200) {
-        console.log(result);
+        processJwtToken(result.token);
+        return <Redirect to="/" />;
       } else {
         setError((error) => ({ status: status, errorMessage: err }));
       }
