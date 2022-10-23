@@ -23,7 +23,7 @@ function NavigationBar() {
     <div>
       <Navbar collapseOnSelect color="dark" light expand="md" fixed="top">
         <NavbarBrand href="/">
-          <img src={logo} width={"50"} height={"35"} />
+          <img src={logo} width={"50"} height={"35"} alt="Navbar icon" />
         </NavbarBrand>
         <Nav className="me-auto" navbar>
           <UncontrolledDropdown nav inNavbar>

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  Modal,
-  ModalBody,
-  ModalHeader,
-} from "reactstrap";
+import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
+import Card from "react-bootstrap/Card";
+
+import { useCookies } from "react-cookie";
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import PersonForm from "./components/person-form";
 import * as API_USERS from "./api/person-api";
@@ -26,32 +20,45 @@ function UserManagemet(props) {
   // to render the component twice (using setError and setErrorStatus)
   // This approach can be used for linked state variables.
   const [error, setError] = useState({ status: 0, errorMessage: null });
+  const [cookie] = useCookies();
+
+  //for pagination
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(0);
+  const pageSize = 10;
 
   // componentDidMount
-  useEffect(() => {
-    fetchPersons();
-  }, []);
+  useEffect(
+    () => {
+      fetchPersons();
+    },
+    [page]
+  );
 
   function fetchPersons() {
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJmaXJzdE5hbWUiOiJDbGF1ZGl1IiwibGFzdE5hbWUiOiJCaXJsdGl1Iiwic3ViIjoiY2xhdWRpdUB5YWhvby5jb20iLCJpZCI6IjE0MzM5ODk1LWUyMWMtNDhhNy04OWNkLTI5ZmIyMDc3NmFhYyIsImV4cCI6MTY2NjUzNDI0MSwiaWF0IjoxNjY2NTE2MjQxfQ.JB_RTFbNKI6NJpy0n9UbLVYWftKnEB_4RhxsLmdiyvZ9I81rrjCWvd3Efg86v_a89rbEu-FKeUc255EZaU4xfg";
     const config = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${cookie.access_token}`,
       },
     };
+
     const endpoint = "/client";
-    return API_USERS.getPersons(endpoint, config, (result, status, err) => {
-      if (result !== null && status === 200) {
-        console.log(result.energyUsers);
-        setTableData((tableData) => result.energyUsers);
-        setIsLoaded((isLoaded) => true);
-      } else {
-        setError((error) => ({ status: status, errorMessage: err }));
+    return API_USERS.getPersons(
+      endpoint,
+      config,
+      getRequestParams(),
+      (result, status, err) => {
+        if (result !== null && status === 200) {
+          setTableData((tableData) => result.energyUsers);
+          setCount(result.totalPages);
+          setIsLoaded((isLoaded) => true);
+        } else {
+          setError((error) => ({ status: status, errorMessage: err }));
+        }
       }
-    });
+    );
   }
 
   function toggleForm() {
@@ -70,27 +77,39 @@ function UserManagemet(props) {
     backgroundColor: "unset",
   };
 
+  //////for pagination
+  const getRequestParams = () => {
+    let params = {};
+    if (page) {
+      params["pageNumber"] = page - 1;
+    }
+    if (pageSize) {
+      params["pageSize"] = pageSize;
+    }
+    return params;
+  };
+
+  const handlePageChange = (event, value) => {
+    if (value !== page) setPage(value);
+  };
   return (
     <div class="Container" className="background">
       <div class="row">
         <div class="col-sm-2" />
         <div class="col-sm-8">
           <Card
-            bg="dark"
-            text="dark"
-            style={{
-              width: "19rem",
-              "margin-top": "100px",
-              "margin-left": "100px",
-            }}
-            className="mb-2"
+            bg="secondary"
+            key="secondary"
+            text="white"
+            style={{ width: "32rem", "margin-top": "7rem" }}
+            className="mb-3"
           >
-            <CardHeader color="dark">User Management page</CardHeader>
-            <CardBody>
-              <CardText>
+            <Card.Header>User Management page</Card.Header>
+            <Card.Body>
+              <Card.Text>
                 On this page you can manage the user accounts from your app
-              </CardText>
-            </CardBody>
+              </Card.Text>
+            </Card.Body>
           </Card>
         </div>
         <div class="col-sm-2" />
@@ -131,14 +150,14 @@ function UserManagemet(props) {
           <Pagination
             style={paginationStyle}
             //className="my-3"
-            count={200}
-            page={1}
+            count={count}
+            page={page}
             siblingCount={1}
             boundaryCount={1}
             variant="outlined"
             shape="primary"
             color="dark"
-            //onChange={handlePageChange}
+            onChange={handlePageChange}
           />
         </div>
 

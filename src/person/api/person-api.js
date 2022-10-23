@@ -5,9 +5,11 @@ const endpoint = {
   person: "/person",
 };
 
-function getPersons(endpoint, config, callback) {
-  let request = new Request(HOST.backend_api + endpoint, config);
-  console.log(request.url);
+function getPersons(endpoint, config, params, callback) {
+  let request = new Request(
+    HOST.backend_api + endpoint + "?" + new URLSearchParams(params),
+    config
+  );
   RestApiClient.performRequest(request, callback);
 }
 

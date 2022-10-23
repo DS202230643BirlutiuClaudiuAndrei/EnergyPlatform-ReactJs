@@ -14,6 +14,7 @@ function CarouselAnimation(props) {
           src={FirstIteam}
           width="100%"
           height="400px"
+          alt="First Item"
         />
         <Carousel.Caption style={{ "text-align": "top" }}>
           <Card

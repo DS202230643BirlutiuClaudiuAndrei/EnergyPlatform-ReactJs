@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, Redirect, useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { FormGroup, Input, Label } from "reactstrap";
 import Button from "react-bootstrap/Button";
@@ -97,7 +97,6 @@ function LoginForm(props) {
     return API_USERS.postLogin(endpoint, config, (result, status, err) => {
       if (result !== null && status === 200) {
         processJwtToken(result.token);
-        return <Redirect to="/" />;
       } else {
         setError((error) => ({ status: status, errorMessage: err }));
       }
