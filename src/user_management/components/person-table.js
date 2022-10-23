@@ -5,6 +5,7 @@ import "./css/ClientTable.css";
 import Table from "react-bootstrap/Table";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import ClientEditForm from "./ClientEdit";
+import ClientInformation from "./ClientInformation";
 
 function PersonTable(props) {
   //set current user to be displayed in modal
@@ -12,6 +13,8 @@ function PersonTable(props) {
 
   //edit modal
   const [isEditSelected, setEditSelected] = useState(false);
+  //view modal
+  const [isViewSelected, setViewSelected] = useState(false);
 
   function reloadFunction() {
     props.reloadHandler();
@@ -19,7 +22,12 @@ function PersonTable(props) {
 
   function toggleEditModal(current) {
     setCurrentUser(current);
-    setEditSelected((isSelected) => !isSelected);
+    setEditSelected((isEditSelected) => !isEditSelected);
+  }
+
+  function toggleViewModal(current) {
+    setCurrentUser(current);
+    setViewSelected((isViewSelected) => !isViewSelected);
   }
 
   return (
@@ -46,7 +54,11 @@ function PersonTable(props) {
               <td className="center-client-table">{person.email}</td>
 
               <td className="center-client-table">
-                <Button variant="primary" className="btn-space-client">
+                <Button
+                  variant="primary"
+                  className="btn-space-client"
+                  onClick={() => toggleViewModal(person)}
+                >
                   View
                 </Button>
                 <Button
@@ -67,6 +79,13 @@ function PersonTable(props) {
         <ModalHeader toggle={toggleEditModal}> Edit Person: </ModalHeader>
         <ModalBody>
           <ClientEditForm user={currentUser} reloadHandler={reloadFunction} />
+        </ModalBody>
+      </Modal>
+
+      <Modal isOpen={isViewSelected} toggle={toggleViewModal} size="lg">
+        <ModalHeader toggle={toggleViewModal}> View Person: </ModalHeader>
+        <ModalBody>
+          <ClientInformation user={currentUser} />
         </ModalBody>
       </Modal>
     </div>
