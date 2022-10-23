@@ -7,7 +7,7 @@ import Validate from "./validators/person-validators";
 import * as API_USERS from "../api/person-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import { useCookies } from "react-cookie";
-
+import Swal from "sweetalert2";
 const formControlsInit = {
   firstName: {
     value: "",
@@ -88,7 +88,7 @@ function PersonForm(props) {
       user_account,
       (result, status, err) => {
         if (result !== null && (status === 200 || status === 201)) {
-          console.log("Successfully inserted person " + result);
+          Swal.fire(user_account.firstName, "Inserted successfully", "success");
           props.reloadHandler();
         } else if (result !== null && status === 409) {
           setError((error) => ({

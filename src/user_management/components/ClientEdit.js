@@ -7,6 +7,7 @@ import Validate from "./validators/person-validators";
 import * as API_USERS from "../api/person-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import { useCookies } from "react-cookie";
+import Swal from "sweetalert2";
 
 function ClientEditForm(props) {
   const formControlsInit = {
@@ -82,7 +83,8 @@ function ClientEditForm(props) {
           result !== null &&
           (status === 200 || status === 201 || status === 204)
         ) {
-          console.log("Successfully uodated client");
+          Swal.fire(user_account.firstName, "Edit successfully", "success");
+
           props.reloadHandler();
         } else if (result !== null && status === 409) {
           setError((error) => ({

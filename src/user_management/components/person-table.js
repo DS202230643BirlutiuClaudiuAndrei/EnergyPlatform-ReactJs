@@ -8,6 +8,7 @@ import ClientEditForm from "./ClientEdit";
 import ClientInformation from "./ClientInformation";
 import * as API_USERS from "../api/person-api";
 import { useCookies } from "react-cookie";
+import Swal from "sweetalert2";
 
 function PersonTable(props) {
   //set current user to be displayed in modal
@@ -44,6 +45,7 @@ function PersonTable(props) {
           (status === 200 || status === 201 || status === 204)
         ) {
           console.log("Successfully uodated client");
+          Swal.fire(user.firstName, "Deleted successfully", "success");
           props.reloadHandler();
         } else if (result !== null && status === 409) {
           setError((error) => ({
