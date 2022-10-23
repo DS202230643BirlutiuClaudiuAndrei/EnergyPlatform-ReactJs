@@ -20,7 +20,15 @@ function App() {
         <div>
           <NavigationBar />
           <Switch>
-            <Route exact path="/" render={() => <Home />} />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              )}
+            />
 
             <Route
               exact

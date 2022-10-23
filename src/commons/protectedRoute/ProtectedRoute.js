@@ -12,9 +12,10 @@ const ProtectedRoute = ({ role, children }) => {
     setCookie("redirect_to", location.pathname, { path: "/" });
     history.push("/login");
   }
-  if (role && user.role !== role) {
-    history.push("/error");
-  }
+  if (user)
+    if (role && user.role !== role) {
+      history.push("/error");
+    }
 
   return children;
 };
