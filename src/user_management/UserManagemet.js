@@ -3,24 +3,23 @@ import { Button, Modal, ModalBody, ModalHeader } from "reactstrap";
 
 import Card from "react-bootstrap/Card";
 
-import { useCookies } from "react-cookie";
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import PersonForm from "./components/person-form";
 import * as API_USERS from "./api/person-api";
 import PersonTable from "./components/person-table";
 import "../commons/styles/BackgroundStyle.css";
 import Pagination from "@material-ui/lab/Pagination";
+import { useCookies } from "react-cookie";
 
 function UserManagemet(props) {
   const [isSelected, setIsSelected] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const [cookies] = useCookies(["access_token"]);
   // Store error status and message in the same object because we don't want
   // to render the component twice (using setError and setErrorStatus)
   // This approach can be used for linked state variables.
   const [error, setError] = useState({ status: 0, errorMessage: null });
-  const [cookie] = useCookies();
 
   //for pagination
   const [page, setPage] = useState(1);
@@ -36,18 +35,8 @@ function UserManagemet(props) {
   );
 
   function fetchPersons() {
-    const config = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookie.access_token}`,
-      },
-    };
-
-    const endpoint = "/client";
     return API_USERS.getPersons(
-      endpoint,
-      config,
+      cookies.access_token,
       getRequestParams(),
       (result, status, err) => {
         if (result !== null && status === 200) {

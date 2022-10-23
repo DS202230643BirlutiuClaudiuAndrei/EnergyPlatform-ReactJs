@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import NavigationBar from "./navigation-bar";
 import Home from "./home/home";
-import PersonContainer from "./person/UserManagemet";
+import PersonContainer from "./user_management/UserManagemet";
 import LoginPage from "./login/LoginPage";
 
 import ErrorPage from "./commons/errorhandling/error-page";

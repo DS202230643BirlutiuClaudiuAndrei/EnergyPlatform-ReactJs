@@ -6,18 +6,30 @@ import Button from "react-bootstrap/Button";
 import Validate from "./validators/person-validators";
 import * as API_USERS from "../api/person-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
+import { useCookies } from "react-cookie";
 
 const formControlsInit = {
-  name: {
+  firstName: {
     value: "",
-    placeholder: "What is your name?...",
+    placeholder: "First Name...",
     valid: false,
     touched: false,
     validationRules: {
-      minLength: 3,
       isRequired: true,
+      minLength: 2,
     },
   },
+  lastName: {
+    value: "",
+    placeholder: "Last Name...",
+    valid: false,
+    touched: false,
+    validationRules: {
+      isRequired: true,
+      minLength: 2,
+    },
+  },
+
   email: {
     value: "",
     placeholder: "Email...",
@@ -27,17 +39,14 @@ const formControlsInit = {
       emailValidator: true,
     },
   },
-  age: {
+  password: {
     value: "",
-    placeholder: "Age...",
+    placeholder: "Password...",
     valid: false,
     touched: false,
-  },
-  address: {
-    value: "",
-    placeholder: "Cluj, Zorilor, Str. Lalelelor 21...",
-    valid: false,
-    touched: false,
+    validationRules: {
+      minLength: 5,
+    },
   },
 };
 
@@ -45,6 +54,7 @@ function PersonForm(props) {
   const [error, setError] = useState({ status: 0, errorMessage: null });
   const [formIsValid, setFormIsValid] = useState(false);
   const [formControls, setFormControls] = useState(formControlsInit);
+  const [cookies] = useCookies(["access_token"]);
 
   function handleChange(event) {
     let name = event.target.name;
@@ -72,45 +82,74 @@ function PersonForm(props) {
     setFormIsValid((formIsValidPrev) => formIsValid);
   }
 
-  function registerPerson(person) {
-    return API_USERS.postPerson(person, (result, status, err) => {
-      if (result !== null && (status === 200 || status === 201)) {
-        console.log("Successfully inserted person with id: " + result);
-        props.reloadHandler();
-      } else {
-        setError((error) => ({ status: status, errorMessage: err }));
+  function createNewAccount(user_account) {
+    return API_USERS.postPerson(
+      cookies.access_token,
+      user_account,
+      (result, status, err) => {
+        if (result !== null && (status === 200 || status === 201)) {
+          console.log("Successfully inserted person " + result);
+          props.reloadHandler();
+        } else if (result !== null && status === 409) {
+          setError((error) => ({
+            status: status,
+            errorMessage: result.message,
+          }));
+        } else {
+          setError((error) => ({ status: status, errorMessage: err }));
+        }
       }
-    });
+    );
   }
 
   function handleSubmit() {
-    let person = {
-      name: formControls.name.value,
+    let user_account = {
+      firstName: formControls.firstName.value,
+      lastName: formControls.lastName.value,
       email: formControls.email.value,
-      age: formControls.age.value,
-      address: formControls.address.value,
+      password: formControls.password.value,
     };
-    registerPerson(person);
+    createNewAccount(user_account);
   }
 
   return (
     <div>
-      <FormGroup id="name">
-        <Label for="nameField"> Name: </Label>
+      <FormGroup id="firstName">
+        <Label for="firstNameField"> First Name: </Label>
         <Input
-          name="name"
-          id="nameField"
-          placeholder={formControls.name.placeholder}
+          name="firstName"
+          id="firstNameField"
+          placeholder={formControls.firstName.placeholder}
           onChange={handleChange}
-          defaultValue={formControls.name.value}
-          touched={formControls.name.touched ? 1 : 0}
-          valid={formControls.name.valid}
+          defaultValue={formControls.firstName.value}
+          touched={formControls.firstName.touched ? 1 : 0}
+          valid={formControls.firstName.valid}
           required
         />
-        {formControls.name.touched && !formControls.name.valid && (
+        {formControls.firstName.touched && !formControls.firstName.valid && (
           <div className={"error-message row"}>
             {" "}
-            * Name must have at least 3 characters{" "}
+            *First Name must have at least 2 characters{" "}
+          </div>
+        )}
+      </FormGroup>
+
+      <FormGroup id="lastName">
+        <Label for="lastNameField"> Last Name: </Label>
+        <Input
+          name="lastName"
+          id="lastNameField"
+          placeholder={formControls.lastName.placeholder}
+          onChange={handleChange}
+          defaultValue={formControls.lastName.value}
+          touched={formControls.lastName.touched ? 1 : 0}
+          valid={formControls.lastName.valid}
+          required
+        />
+        {formControls.lastName.touched && !formControls.lastName.valid && (
+          <div className={"error-message row"}>
+            {" "}
+            * Last Name must have at least 2 characters{" "}
           </div>
         )}
       </FormGroup>
@@ -135,46 +174,36 @@ function PersonForm(props) {
         )}
       </FormGroup>
 
-      <FormGroup id="address">
-        <Label for="addressField"> Address: </Label>
+      <FormGroup id="password">
+        <Label for="passwordField"> Email: </Label>
         <Input
-          name="address"
-          id="addressField"
-          placeholder={formControls.address.placeholder}
+          name="password"
+          id="passwordField"
+          type="password"
+          placeholder={formControls.password.placeholder}
           onChange={handleChange}
-          defaultValue={formControls.address.value}
-          touched={formControls.address.touched ? 1 : 0}
-          valid={formControls.address.valid}
+          defaultValue={formControls.password.value}
+          touched={formControls.password.touched ? 1 : 0}
+          valid={formControls.password.valid}
           required
         />
-      </FormGroup>
-
-      <FormGroup id="age">
-        <Label for="ageField"> Age: </Label>
-        <Input
-          name="age"
-          id="ageField"
-          placeholder={formControls.age.placeholder}
-          min={0}
-          max={100}
-          type="number"
-          onChange={handleChange}
-          defaultValue={formControls.age.value}
-          touched={formControls.age.touched ? 1 : 0}
-          valid={formControls.age.valid}
-          required
-        />
+        {formControls.password.touched && !formControls.password.valid && (
+          <div className={"error-message"}>
+            {" "}
+            * Password must have a valid format
+          </div>
+        )}
       </FormGroup>
 
       <Row>
-        <Col sm={{ size: "4", offset: 8 }}>
+        <Col sm={{ size: "4", offset: 5 }}>
           <Button
             type={"submit"}
             disabled={!formIsValid}
             onClick={handleSubmit}
           >
             {" "}
-            Submit{" "}
+            Create{" "}
           </Button>
         </Col>
       </Row>
