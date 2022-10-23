@@ -24,7 +24,7 @@ function UserManagemet(props) {
   //for pagination
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const pageSize = 10;
+  const pageSize = 7;
 
   // componentDidMount
   useEffect(

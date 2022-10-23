@@ -6,6 +6,8 @@ import Table from "react-bootstrap/Table";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import ClientEditForm from "./ClientEdit";
 import ClientInformation from "./ClientInformation";
+import * as API_USERS from "../api/person-api";
+import { useCookies } from "react-cookie";
 
 function PersonTable(props) {
   //set current user to be displayed in modal
@@ -15,6 +17,8 @@ function PersonTable(props) {
   const [isEditSelected, setEditSelected] = useState(false);
   //view modal
   const [isViewSelected, setViewSelected] = useState(false);
+  const [cookies] = useCookies(["access_token"]);
+  const [error, setError] = useState({ status: 0, errorMessage: null });
 
   function reloadFunction() {
     props.reloadHandler();
@@ -28,6 +32,29 @@ function PersonTable(props) {
   function toggleViewModal(current) {
     setCurrentUser(current);
     setViewSelected((isViewSelected) => !isViewSelected);
+  }
+
+  function deleteUser(user) {
+    return API_USERS.deleteUserAccount(
+      cookies.access_token,
+      { id: user.id },
+      (result, status, err) => {
+        if (
+          result !== null &&
+          (status === 200 || status === 201 || status === 204)
+        ) {
+          console.log("Successfully uodated client");
+          props.reloadHandler();
+        } else if (result !== null && status === 409) {
+          setError((error) => ({
+            status: status,
+            errorMessage: result.message,
+          }));
+        } else {
+          setError((error) => ({ status: status, errorMessage: err }));
+        }
+      }
+    );
   }
 
   return (
@@ -68,7 +95,9 @@ function PersonTable(props) {
                 >
                   Edit
                 </Button>
-                <Button variant="danger">Delete</Button>
+                <Button variant="danger" onClick={() => deleteUser(person)}>
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

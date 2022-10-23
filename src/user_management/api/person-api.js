@@ -5,6 +5,7 @@ const endpoint = {
   get_clients: "/client",
   create_client: "/admin/client",
   update_client: "/admin/client",
+  delete_client: "/admin/client",
   metering_devices: "/metering-device",
 };
 
@@ -86,4 +87,29 @@ function getMeteringDevices(token, params, callback) {
   RestApiClient.performRequest(request, callback);
 }
 
-export { getPersons, getPersonById, postPerson, putUserAccount,getMeteringDevices };
+function deleteUserAccount(token, params, callback) {
+  const config = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  let request = new Request(
+    HOST.backend_api +
+      endpoint.delete_client +
+      "?" +
+      new URLSearchParams(params),
+    config
+  );
+  RestApiClient.performRequest(request, callback);
+}
+
+export {
+  getPersons,
+  getPersonById,
+  postPerson,
+  putUserAccount,
+  getMeteringDevices,
+  deleteUserAccount,
+};
