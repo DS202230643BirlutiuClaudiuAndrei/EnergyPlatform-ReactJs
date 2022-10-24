@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Container, Jumbotron } from "reactstrap";
 
 import "../commons/styles/BackgroundStyle.css";
+import CarouselAnimation from "../commons/animation/CarouselAnimation";
 
 const textStyle = { color: "white" };
 
@@ -21,10 +22,15 @@ function Home() {
           <p style={textStyle}>
             {" "}
             <b>
-              This assignment represents the first module of the distributed
-              software system "Integrated Energy Monitoring Platform for
-              Households" that represents the final project for the Distributed
-              Systems course.{" "}
+              With the transition to green and renewable energy, the Energy &
+              Utilities industry, whether it is utility of water, district
+              heating or power, has many exciting and necessary challenges
+              ahead. There are many use cases in the future Energy & Utilities
+              industry such as smart and micro-grids, power-to-x, heat pump
+              systems, connected building automation systems, intelligent
+              district heating, etc. What they all have in common is that they
+              rely heavily on live data and often need to integrate with other
+              stakeholders' systems.
             </b>{" "}
           </p>
           <p className="lead">
@@ -37,6 +43,15 @@ function Home() {
               Learn More
             </Button>
           </p>
+        </Container>
+        <Container fluid>
+          <div className="row">
+            <div className="col-sm-2" />
+            <div className="col-sm-8">
+              <CarouselAnimation style={{ paddingLeft: "100px" }} />
+            </div>
+            <div className="col-sm-2" />
+          </div>
         </Container>
       </Jumbotron>
     </div>

@@ -1,8 +1,8 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
-import FirstIteam from "../commons/images/FirstItem.jpg";
-import SecondIteam from "../commons/images/SecondItem.jpg";
-import ThirdIteam from "../commons/images/ThirdItem.jpg";
+import FirstIteam from "../images/FirstItem.jpg";
+import SecondIteam from "../images/SecondItem.jpg";
+import ThirdIteam from "../images/ThirdItem.jpg";
 import Card from "react-bootstrap/Card";
 
 function CarouselAnimation(props) {

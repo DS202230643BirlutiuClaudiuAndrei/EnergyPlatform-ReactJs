@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import "../commons/styles/BackgroundStyle.css";
-import CarouselAnimation from "./CarouselAnimation";
+import CarouselAnimation from "../commons/animation/CarouselAnimation";
 import LoginForm from "./LoginForm.js";
 import Card from "react-bootstrap/Card";
 

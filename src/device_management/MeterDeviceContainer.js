@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import APIResponseErrorMessage from "../commons/errorhandling/api-response-error-message";
 import * as API_DEVICE from "./api/DeviceApi";
 
@@ -42,7 +42,7 @@ function MeterDeviceContainer(props) {
       (result, status, err) => {
         if (result !== null && status === 200) {
           setDevices((devices) => result.meteringDevices);
-          console.log(result.meteringDevices[0]);
+          console.log(result);
           setCount(result.totalPages);
           setIsLoaded((isLoaded) => true);
         } else {
@@ -152,6 +152,16 @@ function MeterDeviceContainer(props) {
                         <HomeIcon />
                         {info.device.address}
                       </Card.Text>
+                      {info.device.clientInfoDTO !== null && (
+                        <Card.Text>xx </Card.Text>
+                      )}
+                      <Button
+                        variant="warning"
+                        style={{ marginLeft: "4rem", marginRight: "2rem" }}
+                      >
+                        Edit
+                      </Button>
+                      <Button variant="danger">Delete</Button>
                     </Card.Body>
                   </Card>
                 </div>
