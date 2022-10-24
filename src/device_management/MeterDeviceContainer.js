@@ -25,7 +25,7 @@ function MeterDeviceContainer(props) {
   //for pagination
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const pageSize = 7;
+  const pageSize = 6;
 
   // componentDidMount
   useEffect(
@@ -122,7 +122,10 @@ function MeterDeviceContainer(props) {
       </div>
       <div className="row" style={{ marginTop: "1rem" }}>
         <div className="col-2" />
-        <div className="col-8" style={{ display: "flex" }}>
+        <div
+          className="col-8"
+          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+        >
           {devices !== null &&
             devices.length !== 0 &&
             devices.map((info, index) => {
@@ -130,7 +133,11 @@ function MeterDeviceContainer(props) {
                 <div>
                   <Card
                     bg="secondary"
-                    style={{ width: "20rem", marginLeft: "7rem" }}
+                    style={{
+                      width: "20rem",
+                      marginLeft: "7rem",
+                      marginBottom: "1rem",
+                    }}
                     text="white"
                   >
                     <Card.Img variant="top" src={MeterIcon} height="200rem" />
