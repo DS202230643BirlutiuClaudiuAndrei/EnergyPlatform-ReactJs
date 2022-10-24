@@ -166,12 +166,12 @@ function LoginForm(props) {
           </Button>
         </Col>
       </Row>
-      <Row style={{ "padding-top": "20px" }}>
+      <Row style={{ paddingTop: "20px" }}>
         <Col sm={{ size: "10", offset: 1 }}>
           <strong> Not registered yet, Register now</strong>
         </Col>
       </Row>
-      <Row style={{ "padding-top": "20px" }}>
+      <Row style={{ paddingTop: "20px" }}>
         <Col sm={{ size: "4", offset: 4 }}>
           <Button type={"submit"} onClick={handleSubmit}>
             {" "}

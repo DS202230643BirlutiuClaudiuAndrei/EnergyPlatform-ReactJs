@@ -16,11 +16,11 @@ function CarouselAnimation(props) {
           height="400px"
           alt="First Item"
         />
-        <Carousel.Caption style={{ "text-align": "top" }}>
+        <Carousel.Caption style={{ textAlign: "top" }}>
           <Card
             bg="secondary"
             text={"white"}
-            style={{ width: "18rem", height: "5rem", "margin-left": "10rem" }}
+            style={{ width: "18rem", height: "5rem", marginLeft: "10rem" }}
             className="mb-2"
           >
             <Card.Body>
@@ -44,7 +44,7 @@ function CarouselAnimation(props) {
           <Card
             bg="secondary"
             text={"white"}
-            style={{ width: "18rem", "margin-left": "10rem" }}
+            style={{ width: "18rem", marginLeft: "10rem" }}
             className="mb-2"
           >
             <Card.Body>

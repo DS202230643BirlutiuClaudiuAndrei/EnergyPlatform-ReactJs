@@ -82,15 +82,15 @@ function UserManagemet(props) {
     if (value !== page) setPage(value);
   };
   return (
-    <div class="Container" className="background">
-      <div class="row">
-        <div class="col-sm-2" />
-        <div class="col-sm-8">
+    <div className="Container background">
+      <div className="row">
+        <div className="col-sm-2" />
+        <div className="col-sm-8">
           <Card
             bg="secondary"
             key="secondary"
             text="white"
-            style={{ width: "32rem", "margin-top": "7rem" }}
+            style={{ width: "32rem", marginTop: "7rem" }}
             className="mb-3"
           >
             <Card.Header>User Management page</Card.Header>
@@ -101,24 +101,24 @@ function UserManagemet(props) {
             </Card.Body>
           </Card>
         </div>
-        <div class="col-sm-2" />
+        <div className="col-sm-2" />
       </div>
 
-      <div class="row">
-        <div class="col-sm-2" />
-        <div class="col-sm-8">
+      <div className="row">
+        <div className="col-sm-2" />
+        <div className="col-sm-8">
           <div
-            class="row"
-            style={{ "margin-top": "20px", "margin-left": "10px" }}
+            className="row"
+            style={{ marginTop: "20px", marginLeft: "10px" }}
           >
-            <div class="col-sm-12">
+            <div className="col-sm-12">
               <Button color="primary" onClick={toggleForm}>
                 Add Person{" "}
               </Button>
             </div>
           </div>
-          <div class="row" style={{ "margin-top": "20px" }}>
-            <div class="col-sm-12">
+          <div className="row" style={{ marginTop: "20px" }}>
+            <div className="col-sm-12">
               {isLoaded && (
                 <PersonTable tableData={tableData} reloadHandler={reload} />
               )}
@@ -131,14 +131,14 @@ function UserManagemet(props) {
               )}
             </div>
           </div>
-          <div class="col-sm-2" />
+          <div className="col-sm-2" />
         </div>
 
-        <div class="col-sm-2" />
+        <div className="col-sm-2" />
       </div>
-      <div class="row">
-        <div class="col-sm-2" />
-        <div class="col-sm-8" style={{ "text-align": "center" }}>
+      <div className="row">
+        <div className="col-sm-2" />
+        <div className="col-sm-8" style={{ textAlign: "center" }}>
           <Pagination
             style={paginationStyle}
             //className="my-3"
@@ -147,13 +147,13 @@ function UserManagemet(props) {
             siblingCount={1}
             boundaryCount={1}
             variant="outlined"
-            shape="primary"
-            color="dark"
+            shape="round"
+            color="secondary"
             onChange={handlePageChange}
           />
         </div>
 
-        <div class="col-sm-2" />
+        <div className="col-sm-2" />
       </div>
 
       <Modal isOpen={isSelected} toggle={toggleForm} size="lg">

@@ -11,9 +11,9 @@ function LoginPage(props) {
 
   return (
     <div className="background" style={{ width: "100%" }}>
-      <div class="container" style={{ "margin-top": "50px", width: "100%" }}>
-        <div class="row" style={{ "padding-top": "100px" }}>
-          <div class="col-6">
+      <div className="container" style={{ marginTop: "50px", width: "100%" }}>
+        <div className="row" style={{ paddingTop: "100px" }}>
+          <div className="col-6">
             <Card className="text-center">
               <Card.Header>Login</Card.Header>
               <Card.Body>
@@ -26,8 +26,8 @@ function LoginPage(props) {
               </Card.Footer>
             </Card>
           </div>
-          <div class="col-6" style={{ "tetx-align": "center" }}>
-            <CarouselAnimation style={{ "padding-left": "100px" }} />
+          <div className="col-6" style={{ tetxAlign: "center" }}>
+            <CarouselAnimation style={{ paddingLeft: "100px" }} />
           </div>
         </div>
       </div>
