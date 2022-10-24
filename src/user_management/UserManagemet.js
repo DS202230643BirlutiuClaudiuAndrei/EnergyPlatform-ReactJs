@@ -117,6 +117,26 @@ function UserManagemet(props) {
               </Button>
             </div>
           </div>
+          <div className="row">
+            <div className="col-sm-2" />
+            <div className="col-sm-8">
+              <Pagination
+                style={paginationStyle}
+                //className="my-3"
+                count={count}
+                page={page}
+                siblingCount={1}
+                boundaryCount={1}
+                variant="outlined"
+                shape="round"
+                color="secondary"
+                onChange={handlePageChange}
+              />
+            </div>
+
+            <div className="col-sm-2" />
+          </div>
+
           <div className="row" style={{ marginTop: "20px" }}>
             <div className="col-sm-12">
               {isLoaded && (
@@ -132,25 +152,6 @@ function UserManagemet(props) {
             </div>
           </div>
           <div className="col-sm-2" />
-        </div>
-
-        <div className="col-sm-2" />
-      </div>
-      <div className="row">
-        <div className="col-sm-2" />
-        <div className="col-sm-8" style={{ textAlign: "center" }}>
-          <Pagination
-            style={paginationStyle}
-            //className="my-3"
-            count={count}
-            page={page}
-            siblingCount={1}
-            boundaryCount={1}
-            variant="outlined"
-            shape="round"
-            color="secondary"
-            onChange={handlePageChange}
-          />
         </div>
 
         <div className="col-sm-2" />
