@@ -6,7 +6,7 @@ const endpoint = {
   create_client: "/admin/client",
   update_client: "/admin/client",
   delete_client: "/admin/client",
-  metering_devices: "/metering-device",
+  metering_devices: "/device",
 };
 
 function getPersons(token, params, callback) {
