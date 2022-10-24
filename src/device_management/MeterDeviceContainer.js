@@ -152,8 +152,11 @@ function MeterDeviceContainer(props) {
                         <HomeIcon />
                         {info.device.address}
                       </Card.Text>
-                      {info.device.clientInfoDTO !== null && (
-                        <Card.Text>xx </Card.Text>
+                      {info.clientInfoDTO !== null && (
+                        <Card.Text>
+                          <AccountCircleIcon />
+                          {info.clientInfoDTO.email}{" "}
+                        </Card.Text>
                       )}
                       <Button
                         variant="warning"
