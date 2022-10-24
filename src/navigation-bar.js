@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-} from "reactstrap";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 import logo from "./commons/images/title.png";
+import useUser from "./commons/services/useUser";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const textStyle = {
   color: "white",
@@ -19,30 +14,34 @@ const textStyle = {
 };
 
 function NavigationBar() {
+  const user = useUser();
   return (
-    <div>
-      <Navbar collapseOnSelect color="dark" light expand="md" fixed="top">
-        <NavbarBrand href="/">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
+      <Container>
+        <Navbar.Brand href="/">
           <img src={logo} width={"50"} height={"35"} alt="Navbar icon" />
-        </NavbarBrand>
-        <Nav className="me-auto" navbar>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle style={textStyle} nav caret>
-              Menu
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                <NavLink href="/person">Persons</NavLink>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-
-          <NavItem nav inNavbar>
-            <NavLink href="/person">Persons</NavLink>
-          </NavItem>
-        </Nav>
-      </Navbar>
-    </div>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/person">User Management</Nav.Link>
+            <Nav.Link href="/metering-devices">Metering devices</Nav.Link>
+            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          <Nav>
+            <Nav.Link eventKey={2} href="/">
+              <AccountCircleIcon color="success" />{" "}
+              {user !== null && user.firstName + " " + user.lastName}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 

@@ -9,6 +9,7 @@ import LoginPage from "./login/LoginPage";
 import ErrorPage from "./commons/errorhandling/error-page";
 import styles from "./commons/styles/project-style.css";
 import ProtectedRoute from "./commons/protectedRoute/ProtectedRoute.js";
+import MeterDeviceContainer from "./device_management/MeterDeviceContainer";
 /*
     Namings: https://reactjs.org/docs/jsx-in-depth.html#html-tags-vs.-react-components
     Should I use hooks?: https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both
@@ -37,6 +38,16 @@ function App() {
                 <ProtectedRoute role="ADMIN">
                   {" "}
                   <PersonContainer />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              exact
+              path="/metering-devices"
+              render={() => (
+                <ProtectedRoute role="ADMIN">
+                  {" "}
+                  <MeterDeviceContainer />
                 </ProtectedRoute>
               )}
             />
