@@ -61,7 +61,14 @@ function PersonTable(props) {
 
   return (
     <div>
-      <Table striped bordered hover variant="dark" color="primary">
+      <Table
+        striped
+        bordered
+        hover
+        variant="dark"
+        color="primary"
+        style={{ opacity: ".9" }}
+      >
         <thead>
           <tr>
             <th className="center-client-table">

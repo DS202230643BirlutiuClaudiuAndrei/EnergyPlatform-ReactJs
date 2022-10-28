@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 import { FormGroup, Input, Label } from "reactstrap";
 import Button from "react-bootstrap/Button";
 
-import Validate from "./validators/person-validators";
+import Validate from "../../commons/validators/person-validators";
 import * as API_USERS from "../api/person-api";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import { useCookies } from "react-cookie";
