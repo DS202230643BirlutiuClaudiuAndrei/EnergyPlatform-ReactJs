@@ -16,7 +16,7 @@ function DeviceEditForm(props) {
       value: props.device.description,
       placeholder: props.device.description,
       valid: true,
-      touched: false,
+      touched: true,
       validationRules: {
         isRequired: true,
         minLength: 2,
@@ -43,6 +43,15 @@ function DeviceEditForm(props) {
         minLength: 2,
       },
     },
+
+    owner: {
+      value:
+        props.currentOwner === null || props.currentOwner === undefined
+          ? null
+          : props.currentOwner.id,
+      valid: true,
+      touched: false,
+    },
   };
 
   const [error, setError] = useState({ status: 0, errorMessage: null });
@@ -51,12 +60,16 @@ function DeviceEditForm(props) {
   const [cookies] = useCookies(["access_token"]);
 
   //for select user
-  const [owner, setOwner] = useState("");
+  const [owner, setOwner] = useState(
+    props.currentOwner === null || props.currentOwner === undefined
+      ? null
+      : props.currentOwner.id
+  );
 
   function handleChange(event) {
     let name = event.target.name;
     let value = event.target.value;
-
+    console.log(value, name);
     let updatedControls = { ...formControls };
 
     let updatedFormElement = updatedControls[name];
@@ -89,7 +102,6 @@ function DeviceEditForm(props) {
           (status === 200 || status === 201 || status === 204)
         ) {
           Swal.fire(device.description, "Edit device successfully", "success");
-
           props.reloadHandler();
         } else if (result !== null && status === 409) {
           setError((error) => ({
@@ -104,11 +116,18 @@ function DeviceEditForm(props) {
   }
 
   function handleSubmit() {
+    console.log(formControls.owner.value);
     let device = {
       description: formControls.description.value,
       address: formControls.address.value,
       maxHourlyConsumption: formControls.maxHourlyConsumption.value,
       id: props.device.id,
+      owner:
+        formControls.owner.value !== null &&
+        formControls.owner.value !== undefined &&
+        formControls.owner.value !== "NONE"
+          ? formControls.owner.value
+          : null,
     };
     editDevice(device);
   }
@@ -175,18 +194,35 @@ function DeviceEditForm(props) {
           )}
       </FormGroup>
       <Form.Group controlId="formBasicSelect">
-        <Form.Label>Select Norm Type</Form.Label>
+        <Form.Label>Select an owner for Device</Form.Label>
         <Form.Control
           as="select"
-          value={owner}
-          onChange={(e) => {
-            console.log("e.target.value", e.target.value);
-            setOwner(e.target.value);
-          }}
+          style={{ maxHeight: "2rem" }}
+          name="owner"
+          onChange={handleChange}
+          defaultValue={owner !== null && owner !== undefined ? owner.id : null}
         >
-          <option value="DICTUM">Dictamen</option>
-          <option value="CONSTANCY">Constancia</option>
-          <option value="COMPLEMENT">Complemento</option>
+          {props.currentOwner !== null && props.currentOwner !== undefined && (
+            <option key={props.currentOwner.id} value={props.currentOwner.id}>
+              {props.currentOwner.email}
+            </option>
+          )}
+          <option value="NONE">None</option>
+          {props.owners !== null &&
+            props.owners.map((owner, index) => {
+              if (
+                !(
+                  props.currentOwner !== null &&
+                  props.currentOwner !== undefined &&
+                  props.currentOwner.id === owner.id
+                )
+              )
+                return (
+                  <option key={index} value={owner.ownerId}>
+                    {owner.email}
+                  </option>
+                );
+            })}
         </Form.Control>
       </Form.Group>
 

@@ -33,6 +33,8 @@ function MeterDeviceContainer(props) {
 
   //for modals
   const [currentDevice, setCurrentDevice] = useState(null);
+  const [currentOwnerDevice, setCurrentOwnerDevice] = useState(null);
+
   //edit modal
   const [isEditSelected, setEditSelected] = useState(false);
   //set a hook eith the all posible owners
@@ -57,7 +59,6 @@ function MeterDeviceContainer(props) {
       (result, status, err) => {
         if (result !== null && status === 200) {
           setDevices((devices) => result.meteringDevices);
-          console.log(result);
           setCount(result.totalPages);
           setIsLoaded((isLoaded) => true);
         } else {
@@ -72,9 +73,7 @@ function MeterDeviceContainer(props) {
       cookies.access_token,
       (result, status, err) => {
         if (result !== null && status === 200) {
-          console.log(result);
           setOwners((owners) => result);
-          console.log(result);
         } else {
           setError((error) => ({ status: status, errorMessage: err }));
         }
@@ -104,8 +103,9 @@ function MeterDeviceContainer(props) {
   }
 
   /////////////////////////////////////////////////////////////for modals /////////////////////////////////////////////
-  function toggleEditModal(current) {
-    setCurrentDevice(current);
+  function toggleEditModal(device, owner) {
+    setCurrentDevice(device);
+    setCurrentOwnerDevice(owner);
     setEditSelected((isEditSelected) => !isEditSelected);
   }
 
@@ -216,7 +216,9 @@ function MeterDeviceContainer(props) {
                       <Button
                         variant="warning"
                         style={{ marginLeft: "4rem", marginRight: "2rem" }}
-                        onClick={() => toggleEditModal(info.device)}
+                        onClick={() =>
+                          toggleEditModal(info.device, info.clientInfoDTO)
+                        }
                       >
                         Edit
                       </Button>
@@ -237,7 +239,12 @@ function MeterDeviceContainer(props) {
         <Modal isOpen={isEditSelected} toggle={toggleEditModal} size="lg">
           <ModalHeader toggle={toggleEditModal}> Edit Person: </ModalHeader>
           <ModalBody>
-            <DeviceEditForm device={currentDevice} reloadHandler={reload} />
+            <DeviceEditForm
+              device={currentDevice}
+              owners={owners}
+              currentOwner={currentOwnerDevice}
+              reloadHandler={reload}
+            />
           </ModalBody>
         </Modal>
       </div>
