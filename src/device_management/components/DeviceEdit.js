@@ -4,16 +4,16 @@ import { FormGroup, Input, Label } from "reactstrap";
 import Button from "react-bootstrap/Button";
 
 import Validate from "../../commons/validators/Validators";
-import * as API_USERS from "../api/person-api";
+import * as API_USERS from "../api/DeviceApi";
 import APIResponseErrorMessage from "../../commons/errorhandling/api-response-error-message";
 import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
 
-function ClientEditForm(props) {
+function DeviceEditForm(props) {
   const formControlsInit = {
-    firstName: {
-      value: props.user.firstName,
-      placeholder: props.user.firstName,
+    description: {
+      value: props.device.description,
+      placeholder: props.device.description,
       valid: true,
       touched: false,
       validationRules: {
@@ -21,9 +21,9 @@ function ClientEditForm(props) {
         minLength: 2,
       },
     },
-    lastName: {
-      value: props.user.lastName,
-      placeholder: props.user.lastName,
+    address: {
+      value: props.device.address,
+      placeholder: props.device.address,
       valid: true,
       touched: false,
       validationRules: {
@@ -32,13 +32,14 @@ function ClientEditForm(props) {
       },
     },
 
-    email: {
-      value: props.user.email,
-      placeholder: props.user.email,
+    maxHourlyConsumption: {
+      value: props.device.maxHourlyConsumption,
+      placeholder: props.device.maxHourlyConsumption,
       valid: true,
       touched: false,
       validationRules: {
-        emailValidator: true,
+        isRequired: true,
+        minLength: 2,
       },
     },
   };
@@ -74,16 +75,16 @@ function ClientEditForm(props) {
     setFormIsValid((formIsValidPrev) => formIsValid);
   }
 
-  function editClient(user_account) {
-    return API_USERS.putUserAccount(
+  function editDevice(device) {
+    return API_USERS.putDevice(
       cookies.access_token,
-      user_account,
+      device,
       (result, status, err) => {
         if (
           result !== null &&
           (status === 200 || status === 201 || status === 204)
         ) {
-          Swal.fire(user_account.firstName, "Edit successfully", "success");
+          Swal.fire(device.description, "Edit device successfully", "success");
 
           props.reloadHandler();
         } else if (result !== null && status === 409) {
@@ -99,75 +100,75 @@ function ClientEditForm(props) {
   }
 
   function handleSubmit() {
-    let user_account = {
-      firstName: formControls.firstName.value,
-      lastName: formControls.lastName.value,
-      email: formControls.email.value,
-      id: props.user.id,
+    let device = {
+      description: formControls.description.value,
+      address: formControls.address.value,
+      maxHourlyConsumption: formControls.maxHourlyConsumption.value,
+      id: props.device.id,
     };
-    editClient(user_account);
+    editDevice(device);
   }
 
   return (
     <div>
-      <FormGroup id="firstName">
-        <Label for="firstNameField"> First Name: </Label>
+      <FormGroup id="description">
+        <Label for="descriptionField"> First Name: </Label>
         <Input
-          name="firstName"
-          id="firstNameField"
-          placeholder={formControls.firstName.placeholder}
+          name="description"
+          id="descriptionField"
+          placeholder={formControls.description.placeholder}
           onChange={handleChange}
-          defaultValue={formControls.firstName.value}
-          touched={formControls.firstName.touched ? 1 : 0}
-          valid={formControls.firstName.valid}
+          defaultValue={formControls.description.value}
+          touched={formControls.description.touched ? 1 : 0}
+          valid={formControls.description.valid}
           required
         />
-        {formControls.firstName.touched && !formControls.firstName.valid && (
+        {formControls.description.touched &&
+          !formControls.description.valid && (
+            <div className={"error-message row"}>
+              *Description must have at least 2 characters{" "}
+            </div>
+          )}
+      </FormGroup>
+
+      <FormGroup id="address">
+        <Label for="addressField"> Last Name: </Label>
+        <Input
+          name="address"
+          id="addressField"
+          placeholder={formControls.address.placeholder}
+          onChange={handleChange}
+          defaultValue={formControls.address.value}
+          touched={formControls.address.touched ? 1 : 0}
+          valid={formControls.address.valid}
+          required
+        />
+        {formControls.address.touched && !formControls.address.valid && (
           <div className={"error-message row"}>
-            {" "}
-            *First Name must have at least 2 characters{" "}
+            * Adress must have at least 2 characters
           </div>
         )}
       </FormGroup>
 
-      <FormGroup id="lastName">
-        <Label for="lastNameField"> Last Name: </Label>
+      <FormGroup id="maxHourlyConsumption">
+        <Label for="maxHourlyConsumptionField"> Email: </Label>
         <Input
-          name="lastName"
-          id="lastNameField"
-          placeholder={formControls.lastName.placeholder}
+          name="maxHourlyConsumption"
+          id="maxHourlyConsumptionField"
+          placeholder={formControls.maxHourlyConsumption.placeholder}
           onChange={handleChange}
-          defaultValue={formControls.lastName.value}
-          touched={formControls.lastName.touched ? 1 : 0}
-          valid={formControls.lastName.valid}
+          defaultValue={formControls.maxHourlyConsumption.value}
+          touched={formControls.maxHourlyConsumption.touched ? 1 : 0}
+          valid={formControls.maxHourlyConsumption.valid}
           required
         />
-        {formControls.lastName.touched && !formControls.lastName.valid && (
-          <div className={"error-message row"}>
-            {" "}
-            * Last Name must have at least 2 characters{" "}
-          </div>
-        )}
-      </FormGroup>
-
-      <FormGroup id="email">
-        <Label for="emailField"> Email: </Label>
-        <Input
-          name="email"
-          id="emailField"
-          placeholder={formControls.email.placeholder}
-          onChange={handleChange}
-          defaultValue={formControls.email.value}
-          touched={formControls.email.touched ? 1 : 0}
-          valid={formControls.email.valid}
-          required
-        />
-        {formControls.email.touched && !formControls.email.valid && (
-          <div className={"error-message"}>
-            {" "}
-            * Email must have a valid format
-          </div>
-        )}
+        {formControls.maxHourlyConsumption.touched &&
+          !formControls.maxHourlyConsumption.valid && (
+            <div className={"error-message"}>
+              {" "}
+              * Max Hourly Consumption must have a valid format
+            </div>
+          )}
       </FormGroup>
 
       <Row>
@@ -193,4 +194,4 @@ function ClientEditForm(props) {
   );
 }
 
-export default ClientEditForm;
+export default DeviceEditForm;

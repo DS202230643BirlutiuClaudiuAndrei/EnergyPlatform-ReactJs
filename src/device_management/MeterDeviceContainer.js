@@ -12,6 +12,10 @@ import { useCookies } from "react-cookie";
 import MeterIcon from "../commons/images/meter.png";
 import HomeIcon from "@mui/icons-material/Home";
 import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
+import Swal from "sweetalert2";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import DeviceEditForm from "./components/DeviceEdit";
+
 function MeterDeviceContainer(props) {
   const [isSelected, setIsSelected] = useState(false);
   const [devices, setDevices] = useState([]);
@@ -27,6 +31,11 @@ function MeterDeviceContainer(props) {
   const [count, setCount] = useState(0);
   const pageSize = 6;
 
+  //for modals
+  const [currentDevice, setCurrentDevice] = useState(null);
+  //edit modal
+  const [isEditSelected, setEditSelected] = useState(false);
+
   // componentDidMount
   useEffect(
     () => {
@@ -34,7 +43,7 @@ function MeterDeviceContainer(props) {
     },
     [page]
   );
-
+  //////////////////////////////////////////////////////////////API call functions/////////////////////////////////////////////////////////////
   function fetchDevices() {
     return API_DEVICE.getDevices(
       cookies.access_token,
@@ -52,22 +61,45 @@ function MeterDeviceContainer(props) {
     );
   }
 
-  function toggleForm() {
-    setIsSelected((isSelected) => !isSelected);
+  function deleteDevice(toDeleteDevice) {
+    let params = {};
+    params["deviceId"] = toDeleteDevice.id;
+    return API_DEVICE.deteleDevice(
+      cookies.access_token,
+      params,
+      (result, status, err) => {
+        if (result !== null && (status === 200 || status === 204)) {
+          Swal.fire(
+            toDeleteDevice.description.firstName,
+            "Deleted successfully",
+            "success"
+          );
+          fetchDevices();
+        } else {
+          setError((error) => ({ status: status, errorMessage: err }));
+        }
+      }
+    );
+  }
+
+  /////////////////////////////////////////////////////////////for modals /////////////////////////////////////////////
+  function toggleEditModal(current) {
+    setCurrentDevice(current);
+    setEditSelected((isEditSelected) => !isEditSelected);
   }
 
   function reload() {
     setIsLoaded((isLoaded) => false);
-    setIsSelected(false);
+    setEditSelected(false);
     fetchDevices();
   }
 
+  ////////////////////////////////////////////////////////////for pagination////////////////////////////////////////////
   const paginationStyle = {
     textAlign: "venter",
     backgroundColor: "unset",
   };
 
-  //////for pagination
   const getRequestParams = () => {
     let params = {};
     if (page) {
@@ -82,6 +114,8 @@ function MeterDeviceContainer(props) {
   const handlePageChange = (event, value) => {
     if (value !== page) setPage(value);
   };
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <div className="Container background">
       <div className="row">
@@ -161,10 +195,16 @@ function MeterDeviceContainer(props) {
                       <Button
                         variant="warning"
                         style={{ marginLeft: "4rem", marginRight: "2rem" }}
+                        onClick={() => toggleEditModal(info.device)}
                       >
                         Edit
                       </Button>
-                      <Button variant="danger">Delete</Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteDevice(info.device)}
+                      >
+                        Delete
+                      </Button>
                     </Card.Body>
                   </Card>
                 </div>
@@ -173,6 +213,12 @@ function MeterDeviceContainer(props) {
         </div>
 
         <div className="col-2" />
+        <Modal isOpen={isEditSelected} toggle={toggleEditModal} size="lg">
+          <ModalHeader toggle={toggleEditModal}> Edit Person: </ModalHeader>
+          <ModalBody>
+            <DeviceEditForm device={currentDevice} reloadHandler={reload} />
+          </ModalBody>
+        </Modal>
       </div>
     </div>
   );
