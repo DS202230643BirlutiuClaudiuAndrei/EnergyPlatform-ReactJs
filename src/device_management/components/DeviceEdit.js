@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Col, Row } from "reactstrap";
-import { FormGroup, Input, Label } from "reactstrap";
+import { FormGroup, Input, Label, FormControl } from "reactstrap";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 import Validate from "../../commons/validators/Validators";
 import * as API_USERS from "../api/DeviceApi";
@@ -48,6 +49,9 @@ function DeviceEditForm(props) {
   const [formIsValid, setFormIsValid] = useState(false);
   const [formControls, setFormControls] = useState(formControlsInit);
   const [cookies] = useCookies(["access_token"]);
+
+  //for select user
+  const [owner, setOwner] = useState("");
 
   function handleChange(event) {
     let name = event.target.name;
@@ -170,6 +174,21 @@ function DeviceEditForm(props) {
             </div>
           )}
       </FormGroup>
+      <Form.Group controlId="formBasicSelect">
+        <Form.Label>Select Norm Type</Form.Label>
+        <Form.Control
+          as="select"
+          value={owner}
+          onChange={(e) => {
+            console.log("e.target.value", e.target.value);
+            setOwner(e.target.value);
+          }}
+        >
+          <option value="DICTUM">Dictamen</option>
+          <option value="CONSTANCY">Constancia</option>
+          <option value="COMPLEMENT">Complemento</option>
+        </Form.Control>
+      </Form.Group>
 
       <Row>
         <Col sm={{ size: "4", offset: 5 }}>

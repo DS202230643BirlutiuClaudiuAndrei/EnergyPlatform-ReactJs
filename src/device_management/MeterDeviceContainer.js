@@ -35,14 +35,20 @@ function MeterDeviceContainer(props) {
   const [currentDevice, setCurrentDevice] = useState(null);
   //edit modal
   const [isEditSelected, setEditSelected] = useState(false);
-
-  // componentDidMount
+  //set a hook eith the all posible owners
+  const [owners, setOwners] = useState([]);
+  // use effect for device pagination
   useEffect(
     () => {
       fetchDevices();
     },
     [page]
   );
+  useEffect(() => {
+    // adding event listeners on mount here
+    fetchPossibleOwners();
+  }, []);
+
   //////////////////////////////////////////////////////////////API call functions/////////////////////////////////////////////////////////////
   function fetchDevices() {
     return API_DEVICE.getDevices(
@@ -54,6 +60,21 @@ function MeterDeviceContainer(props) {
           console.log(result);
           setCount(result.totalPages);
           setIsLoaded((isLoaded) => true);
+        } else {
+          setError((error) => ({ status: status, errorMessage: err }));
+        }
+      }
+    );
+  }
+
+  function fetchPossibleOwners() {
+    return API_DEVICE.getPossibleOwners(
+      cookies.access_token,
+      (result, status, err) => {
+        if (result !== null && status === 200) {
+          console.log(result);
+          setOwners((owners) => result);
+          console.log(result);
         } else {
           setError((error) => ({ status: status, errorMessage: err }));
         }
