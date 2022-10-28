@@ -10,22 +10,22 @@ import APIResponseErrorMessage from "../../commons/errorhandling/api-response-er
 import { useCookies } from "react-cookie";
 import Swal from "sweetalert2";
 
-function DeviceEditForm(props) {
+function DeviceAddForm(props) {
   const formControlsInit = {
     description: {
-      value: props.device.description,
-      placeholder: props.device.description,
-      valid: true,
-      touched: true,
+      value: "",
+      placeholder: "Write the description of the device...",
+      valid: false,
+      touched: false,
       validationRules: {
         isRequired: true,
         minLength: 2,
       },
     },
     address: {
-      value: props.device.address,
-      placeholder: props.device.address,
-      valid: true,
+      value: "",
+      placeholder: "Device address ...",
+      valid: false,
       touched: false,
       validationRules: {
         isRequired: true,
@@ -34,9 +34,9 @@ function DeviceEditForm(props) {
     },
 
     maxHourlyConsumption: {
-      value: props.device.maxHourlyConsumption,
-      placeholder: props.device.maxHourlyConsumption,
-      valid: true,
+      value: "",
+      placeholder: "Max hourly consumption... kw/h",
+      valid: false,
       touched: false,
       validationRules: {
         isRequired: true,
@@ -45,10 +45,7 @@ function DeviceEditForm(props) {
     },
 
     owner: {
-      value:
-        props.currentOwner === null || props.currentOwner === undefined
-          ? null
-          : props.currentOwner.id,
+      value: null,
       valid: true,
       touched: false,
     },
@@ -59,16 +56,10 @@ function DeviceEditForm(props) {
   const [formControls, setFormControls] = useState(formControlsInit);
   const [cookies] = useCookies(["access_token"]);
 
-  //for select user
-  const [owner, setOwner] = useState(
-    props.currentOwner === null || props.currentOwner === undefined
-      ? null
-      : props.currentOwner.id
-  );
-
   function handleChange(event) {
     let name = event.target.name;
     let value = event.target.value;
+
     let updatedControls = { ...formControls };
 
     let updatedFormElement = updatedControls[name];
@@ -91,8 +82,8 @@ function DeviceEditForm(props) {
     setFormIsValid((formIsValidPrev) => formIsValid);
   }
 
-  function editDevice(device) {
-    return API_USERS.putDevice(
+  function postDevice(device) {
+    return API_USERS.postDevice(
       cookies.access_token,
       device,
       (result, status, err) => {
@@ -100,7 +91,7 @@ function DeviceEditForm(props) {
           result !== null &&
           (status === 200 || status === 201 || status === 204)
         ) {
-          Swal.fire(device.description, "Edit device successfully", "success");
+          Swal.fire(device.description, "Post device successfully", "success");
           props.reloadHandler();
         } else if (result !== null && status === 409) {
           setError((error) => ({
@@ -120,15 +111,14 @@ function DeviceEditForm(props) {
       description: formControls.description.value,
       address: formControls.address.value,
       maxHourlyConsumption: formControls.maxHourlyConsumption.value,
-      id: props.device.id,
-      owner:
+      ownerId:
         formControls.owner.value !== null &&
         formControls.owner.value !== undefined &&
         formControls.owner.value !== "NONE"
           ? formControls.owner.value
           : null,
     };
-    editDevice(device);
+    postDevice(device);
   }
 
   return (
@@ -199,28 +189,16 @@ function DeviceEditForm(props) {
           style={{ maxHeight: "2rem" }}
           name="owner"
           onChange={handleChange}
-          defaultValue={owner !== null && owner !== undefined ? owner.id : null}
+          defaultValue={null}
         >
-          {props.currentOwner !== null && props.currentOwner !== undefined && (
-            <option key={props.currentOwner.id} value={props.currentOwner.id}>
-              {props.currentOwner.email}
-            </option>
-          )}
           <option value="NONE">None</option>
           {props.owners !== null &&
             props.owners.map((owner, index) => {
-              if (
-                !(
-                  props.currentOwner !== null &&
-                  props.currentOwner !== undefined &&
-                  props.currentOwner.id === owner.id
-                )
-              )
-                return (
-                  <option key={index} value={owner.ownerId}>
-                    {owner.email}
-                  </option>
-                );
+              return (
+                <option key={index} value={owner.ownerId}>
+                  {owner.email}
+                </option>
+              );
             })}
         </Form.Control>
       </Form.Group>
@@ -248,4 +226,4 @@ function DeviceEditForm(props) {
   );
 }
 
-export default DeviceEditForm;
+export default DeviceAddForm;

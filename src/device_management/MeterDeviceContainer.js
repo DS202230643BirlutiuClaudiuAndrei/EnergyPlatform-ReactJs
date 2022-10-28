@@ -15,6 +15,7 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import DeviceEditForm from "./components/DeviceEdit";
+import DeviceAddForm from "./components/DeviceAddForm";
 
 function MeterDeviceContainer(props) {
   const [isSelected, setIsSelected] = useState(false);
@@ -37,6 +38,7 @@ function MeterDeviceContainer(props) {
 
   //edit modal
   const [isEditSelected, setEditSelected] = useState(false);
+  const [isAddSelected, setAddSelected] = useState(false);
   //set a hook eith the all posible owners
   const [owners, setOwners] = useState([]);
   // use effect for device pagination
@@ -108,10 +110,14 @@ function MeterDeviceContainer(props) {
     setCurrentOwnerDevice(owner);
     setEditSelected((isEditSelected) => !isEditSelected);
   }
+  function toggleAddModal() {
+    setAddSelected((isAddSelected) => !isAddSelected);
+  }
 
   function reload() {
     setIsLoaded((isLoaded) => false);
     setEditSelected(false);
+    setAddSelected(false);
     fetchDevices();
   }
 
@@ -152,7 +158,9 @@ function MeterDeviceContainer(props) {
             </Card.Header>
             <Card.Body>
               <Card.Text>These are our smart energy metering devices</Card.Text>
-              <Button variant="primary">Add new device</Button>
+              <Button variant="primary" onClick={toggleAddModal}>
+                Add new device
+              </Button>
             </Card.Body>
           </Card>
         </div>
@@ -175,11 +183,20 @@ function MeterDeviceContainer(props) {
         </div>
         <div className="col-2" />
       </div>
-      <div className="row" style={{ marginTop: "1rem" }}>
+      <div
+        className="row"
+        style={{ marginTop: "1rem", justifyContent: "center" }}
+      >
         <div className="col-2" />
         <div
           className="col-8"
-          style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
         >
           {devices !== null &&
             devices.length !== 0 &&
@@ -189,9 +206,11 @@ function MeterDeviceContainer(props) {
                   <Card
                     bg="secondary"
                     style={{
-                      width: "20rem",
-                      marginLeft: "7rem",
-                      marginBottom: "1rem",
+                      width: "24rem",
+                      marginLeft: "2rem",
+                      marginBottom: "2rem",
+                      height: "30rem",
+                      overflow: "auto",
                     }}
                     text="white"
                   >
@@ -213,9 +232,14 @@ function MeterDeviceContainer(props) {
                           {info.clientInfoDTO.email}{" "}
                         </Card.Text>
                       )}
+                      {info.clientInfoDTO === null && (
+                        <Card.Text>
+                          <AccountCircleIcon /> None
+                        </Card.Text>
+                      )}
                       <Button
                         variant="warning"
-                        style={{ marginLeft: "4rem", marginRight: "2rem" }}
+                        style={{ marginLeft: "6rem", marginRight: "2rem" }}
                         onClick={() =>
                           toggleEditModal(info.device, info.clientInfoDTO)
                         }
@@ -236,8 +260,15 @@ function MeterDeviceContainer(props) {
         </div>
 
         <div className="col-2" />
+        <Modal isOpen={isAddSelected} toggle={toggleAddModal} size="lg">
+          <ModalHeader toggle={toggleAddModal}> Add Device: </ModalHeader>
+          <ModalBody>
+            <DeviceAddForm owners={owners} reloadHandler={reload} />
+          </ModalBody>
+        </Modal>
+
         <Modal isOpen={isEditSelected} toggle={toggleEditModal} size="lg">
-          <ModalHeader toggle={toggleEditModal}> Edit Person: </ModalHeader>
+          <ModalHeader toggle={toggleEditModal}> Edit Device: </ModalHeader>
           <ModalBody>
             <DeviceEditForm
               device={currentDevice}
