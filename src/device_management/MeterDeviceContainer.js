@@ -237,21 +237,23 @@ function MeterDeviceContainer(props) {
                           <AccountCircleIcon /> None
                         </Card.Text>
                       )}
-                      <Button
-                        variant="warning"
-                        style={{ marginLeft: "6rem", marginRight: "2rem" }}
-                        onClick={() =>
-                          toggleEditModal(info.device, info.clientInfoDTO)
-                        }
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="danger"
-                        onClick={() => deleteDevice(info.device)}
-                      >
-                        Delete
-                      </Button>
+                      <Card.Footer>
+                        <Button
+                          variant="warning"
+                          style={{ marginLeft: "5rem", marginRight: "2rem" }}
+                          onClick={() =>
+                            toggleEditModal(info.device, info.clientInfoDTO)
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => deleteDevice(info.device)}
+                        >
+                          Delete
+                        </Button>
+                      </Card.Footer>
                     </Card.Body>
                   </Card>
                 </div>
