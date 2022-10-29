@@ -37,11 +37,13 @@ function NavigationBar() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-          <Nav>
+          <Nav style={{ marginLeft: "25rem" }}>
             <Nav.Link eventKey={2} href="/">
               <AccountCircleIcon color="success" />{" "}
               {user !== null && user.firstName + " " + user.lastName}
             </Nav.Link>
+
+            {user !== null && <Nav.Link href="/logut">Log out</Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>
