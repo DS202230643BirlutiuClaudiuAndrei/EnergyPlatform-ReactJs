@@ -30,6 +30,9 @@ function NavigationBar() {
             {user !== null && user.role === "ADMIN" && (
               <Nav.Link href="/metering-devices">Metering devices</Nav.Link>
             )}
+            {user !== null && user.role === "CLIENT" && (
+              <Nav.Link href="/owned-devices">My metering devices</Nav.Link>
+            )}
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
