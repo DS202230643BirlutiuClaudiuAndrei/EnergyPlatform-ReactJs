@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -17,10 +18,12 @@ const textStyle = {
 function NavigationBar() {
   const user = useUser();
   const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
+  const history = useHistory();
 
   const onLogOut = () => {
     console.log(cookies.access_token);
     removeCookies("access_token", { path: "/" });
+    history.push("/login");
     window.location.reload(false);
   };
   return (
@@ -41,17 +44,15 @@ function NavigationBar() {
             {user !== null && user.role === "CLIENT" && (
               <Nav.Link href="/owned-devices">My metering devices</Nav.Link>
             )}
-            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-            </NavDropdown>
           </Nav>
           <Nav style={{ marginLeft: "25rem" }}>
             <Nav.Link eventKey={2} href="/">
-              <AccountCircleIcon color="success" />{" "}
-              {user !== null && user.firstName + " " + user.lastName}
+              {user !== null && (
+                <div>
+                  <AccountCircleIcon color="success" /> {user.firstName}{" "}
+                  {user.lastName}
+                </div>
+              )}
             </Nav.Link>
 
             {user !== null && (
