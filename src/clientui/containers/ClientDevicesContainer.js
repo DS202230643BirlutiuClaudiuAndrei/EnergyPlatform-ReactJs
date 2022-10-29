@@ -20,6 +20,8 @@ function ClientDevicesContainer(props) {
   const [devices, setDevices] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [cookies] = useCookies(["access_token"]);
+  const [isSelected, setIsSelected] = useState(false);
+
   // Store error status and message in the same object because we don't want
   // to render the component twice (using setError and setErrorStatus)
   // This approach can be used for linked state variables.
@@ -30,6 +32,8 @@ function ClientDevicesContainer(props) {
   const [count, setCount] = useState(0);
   const pageSize = 6;
 
+  //set the selected device
+  const [curentDevice, setCurrentDevice] = useState();
   useEffect(
     () => {
       fetchDevices();
@@ -37,6 +41,15 @@ function ClientDevicesContainer(props) {
     [page]
   );
 
+  function toggleForm(device) {
+    setCurrentDevice(curentDevice);
+    setIsSelected((isSelected) => !isSelected);
+  }
+  function reload() {
+    setIsLoaded((isLoaded) => false);
+    setIsSelected(false);
+    fetchDevices();
+  }
   //////////////////////////////////////////////////////////////API call functions/////////////////////////////////////////////////////////////
   function fetchDevices() {
     const params = getRequestParams();
@@ -165,6 +178,7 @@ function ClientDevicesContainer(props) {
                         <Button
                           variant="success"
                           style={{ marginLeft: "4rem" }}
+                          onClick={() => toggleForm(device)}
                         >
                           View consumption
                         </Button>
@@ -177,6 +191,11 @@ function ClientDevicesContainer(props) {
         </div>
 
         <div className="col-2" />
+
+        <Modal isOpen={isSelected} toggle={toggleForm} size="lg">
+          <ModalHeader toggle={toggleForm}> Consumption: </ModalHeader>
+          <ModalBody />
+        </Modal>
       </div>
     </div>
   );
