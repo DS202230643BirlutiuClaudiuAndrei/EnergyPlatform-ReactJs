@@ -82,6 +82,7 @@ function LoginForm(props) {
     removeCookie("redirect_to", { path: "/" });
     console.log({ to });
     history.push("/");
+    window.location.reload(false);
   }
   function loginUser(loginDto) {
     const config = {

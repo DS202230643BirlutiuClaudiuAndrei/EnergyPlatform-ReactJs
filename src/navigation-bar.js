@@ -2,12 +2,13 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 import logo from "./commons/images/title.png";
 import useUser from "./commons/services/useUser";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import { useCookies } from "react-cookie";
 const textStyle = {
   color: "white",
   textDecoration: "none",
@@ -15,6 +16,13 @@ const textStyle = {
 
 function NavigationBar() {
   const user = useUser();
+  const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
+
+  const onLogOut = () => {
+    console.log(cookies.access_token);
+    removeCookies("access_token", { path: "/" });
+    window.location.reload(false);
+  };
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
       <Container>
@@ -46,7 +54,11 @@ function NavigationBar() {
               {user !== null && user.firstName + " " + user.lastName}
             </Nav.Link>
 
-            {user !== null && <Nav.Link href="/logut">Log out</Nav.Link>}
+            {user !== null && (
+              <Button variant="secondary" onClick={onLogOut}>
+                Log out
+              </Button>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>
