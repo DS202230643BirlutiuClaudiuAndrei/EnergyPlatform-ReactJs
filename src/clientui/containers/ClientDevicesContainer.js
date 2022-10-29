@@ -34,7 +34,7 @@ function ClientDevicesContainer(props) {
   const pageSize = 6;
 
   //set the selected device
-  const [curentDevice, setCurrentDevice] = useState();
+  const [currentDevice, setCurrentDevice] = useState();
   useEffect(
     () => {
       fetchDevices();
@@ -43,7 +43,7 @@ function ClientDevicesContainer(props) {
   );
 
   function toggleForm(device) {
-    setCurrentDevice(curentDevice);
+    setCurrentDevice(device);
     setIsSelected((isSelected) => !isSelected);
   }
   function reload() {
@@ -196,7 +196,15 @@ function ClientDevicesContainer(props) {
         <Modal isOpen={isSelected} toggle={toggleForm} size="lg">
           <ModalHeader toggle={toggleForm}> Consumption: </ModalHeader>
           <ModalBody>
-            <ConsumptionChart />
+            <ConsumptionChart
+              ownerId={user !== null ? user.id : null}
+              access_token={cookies.access_token}
+              deviceId={
+                currentDevice !== null && currentDevice !== undefined
+                  ? currentDevice.id
+                  : null
+              }
+            />
           </ModalBody>
         </Modal>
       </div>
