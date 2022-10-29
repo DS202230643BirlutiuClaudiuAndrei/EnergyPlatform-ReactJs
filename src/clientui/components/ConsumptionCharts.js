@@ -82,6 +82,7 @@ function ConsumptionChart(props) {
             popperClassName="some-custom-class"
             popperPlacement="top-end"
             onCalendarClose={handleCalendarClose}
+            maxDate={new Date()}
             popperModifiers={[
               {
                 name: "offset",
