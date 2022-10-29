@@ -15,6 +15,7 @@ import ElectricBoltIcon from "@mui/icons-material/ElectricBolt";
 import Swal from "sweetalert2";
 import { Modal, ModalBody, ModalHeader } from "reactstrap";
 import useUser from "../../commons/services/useUser";
+import ConsumptionChart from "../components/ConsumptionCharts";
 
 function ClientDevicesContainer(props) {
   const [devices, setDevices] = useState([]);
@@ -194,7 +195,9 @@ function ClientDevicesContainer(props) {
 
         <Modal isOpen={isSelected} toggle={toggleForm} size="lg">
           <ModalHeader toggle={toggleForm}> Consumption: </ModalHeader>
-          <ModalBody />
+          <ModalBody>
+            <ConsumptionChart />
+          </ModalBody>
         </Modal>
       </div>
     </div>
