@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:14.1-alpine
+FROM node:14.1-alpine as builder
 
 # set working directory
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # install app dependencies
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm install 
+RUN npm install --silent
 # add app
 COPY ./ /app/
 # start app
