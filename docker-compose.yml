@@ -1,13 +1,8 @@
-version: '2'
+version: '3'
 
 services:
-  energy-frontend:
-    image: energy-frontend
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    container_name: energy-frontend
-    ports:
-      - "3000:3000"
 
- 
+  react:
+    image: energyplatformclaudiubirlutiu30643.azurecr.io/claudiubirlutiu30643frontend
+    ports:
+       - "80:80"
