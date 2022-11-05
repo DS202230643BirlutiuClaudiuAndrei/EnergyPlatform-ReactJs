@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  energy-frontend:
+    image: energy-frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: energy-frontend
+    ports:
+      - "3000:3000"
+
+ 
