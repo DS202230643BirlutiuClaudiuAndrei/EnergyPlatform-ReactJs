@@ -5,4 +5,4 @@ services:
   react:
     image: energyplatformclaudiubirlutiu30643.azurecr.io/claudiubirlutiu30643frontend
     ports:
-       - "80:80"
+       - "82:82"
