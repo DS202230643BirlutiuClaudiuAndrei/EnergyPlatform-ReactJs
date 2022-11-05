@@ -16,7 +16,7 @@ RUN npm run build
 
 # Bundle static assets with nginx
 FROM nginx:1.21.0-alpine as production
-COPY --from=react_build /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
 
