@@ -93,7 +93,10 @@ function UserManagemet(props) {
             style={{ width: "32rem", marginTop: "7rem" }}
             className="mb-3"
           >
-            <Card.Header>User Management page</Card.Header>
+            <Card.Header>
+              {" "}
+              <i>USER MANAGEMENT</i>
+            </Card.Header>
             <Card.Body>
               <Card.Text>
                 On this page you can manage the user accounts from your app

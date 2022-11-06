@@ -13,7 +13,7 @@ function CarouselAnimation(props) {
           className="d-block w-100"
           src={FirstIteam}
           width="100%"
-          height="400px"
+          height="500rem"
           alt="First Item"
         />
         <Carousel.Caption style={{ textAlign: "top" }}>
@@ -36,7 +36,7 @@ function CarouselAnimation(props) {
           className="d-block w-100"
           src={SecondIteam}
           width="800px"
-          height="400px"
+          height="500rem"
           alt="Second slide"
         />
 
@@ -61,7 +61,7 @@ function CarouselAnimation(props) {
           className="d-block w-100"
           src={ThirdIteam}
           width="800px"
-          height="400px"
+          height="500rem"
           alt="Third slide"
         />
 

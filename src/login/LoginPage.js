@@ -12,7 +12,7 @@ function LoginPage(props) {
   return (
     <div className="background" style={{ width: "100%" }}>
       <div className="container" style={{ marginTop: "50px", width: "100%" }}>
-        <div className="row" style={{ paddingTop: "100px" }}>
+        <div className="row" style={{ paddingTop: "100px", overflow: "auto" }}>
           <div className="col-6">
             <Card className="text-center">
               <Card.Header>Login</Card.Header>

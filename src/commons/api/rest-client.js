@@ -8,9 +8,14 @@ function performRequest(request, callback) {
           response.json().then((json) => callback(json, response.status, null));
         }
       } else if (response.status === 401) {
-        callback(null, response.status, "Unauthorized");
+        response.json().then((json) => callback(json, response.status, null));
       } else if (response.status === 403) {
-        callback(null, response.status, "Access denied");
+        response.json().then((json) => callback(json, response.status, null));
+      } else if (response.status === 409) {
+        response.json().then((json) => {
+          console.log(json);
+          callback(json, response.status, null);
+        });
       }
     })
     .catch(function(err) {

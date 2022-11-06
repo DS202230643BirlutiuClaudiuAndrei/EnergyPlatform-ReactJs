@@ -11,6 +11,7 @@ import styles from "./commons/styles/project-style.css";
 import ProtectedRoute from "./commons/protectedRoute/ProtectedRoute.js";
 import MeterDeviceContainer from "./device_management/MeterDeviceContainer";
 import ClientDevicesContainer from "./clientui/containers/ClientDevicesContainer";
+import EnergyFooter from "./footer";
 /*
     Namings: https://reactjs.org/docs/jsx-in-depth.html#html-tags-vs.-react-components
     Should I use hooks?: https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both
@@ -21,6 +22,7 @@ function App() {
       <Router>
         <div>
           <NavigationBar />
+          <EnergyFooter />
           <Switch>
             <Route
               exact

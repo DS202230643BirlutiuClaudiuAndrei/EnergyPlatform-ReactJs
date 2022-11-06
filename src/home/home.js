@@ -46,11 +46,11 @@ function Home() {
         </Container>
         <Container fluid>
           <div className="row">
-            <div className="col-sm-2" />
-            <div className="col-sm-8">
+            <div className="col-sm-3" />
+            <div className="col-sm-6">
               <CarouselAnimation style={{ paddingLeft: "100px" }} />
             </div>
-            <div className="col-sm-2" />
+            <div className="col-sm-3" />
           </div>
         </Container>
       </Jumbotron>

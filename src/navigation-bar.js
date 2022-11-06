@@ -28,41 +28,53 @@ function NavigationBar() {
   };
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-      <Container>
-        <Navbar.Brand href="/">
-          <img src={logo} width={"50"} height={"35"} alt="Navbar icon" />
-        </Navbar.Brand>
+      <Nav className="container-fluid">
+        <Nav.Item>
+          <Navbar.Brand href="/">
+            <img src={logo} width={"50"} height={"35"} alt="Navbar icon" />
+          </Navbar.Brand>
+        </Nav.Item>
+
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+          <Nav className="container-fluid">
             {user !== null && user.role === "ADMIN" && (
-              <Nav.Link href="/person">User Management</Nav.Link>
+              <Nav.Item>
+                <Nav.Link href="/person">User Management</Nav.Link>
+              </Nav.Item>
             )}
             {user !== null && user.role === "ADMIN" && (
-              <Nav.Link href="/metering-devices">Metering devices</Nav.Link>
+              <Nav.Item>
+                <Nav.Link href="/metering-devices">Metering devices</Nav.Link>
+              </Nav.Item>
             )}
             {user !== null && user.role === "CLIENT" && (
-              <Nav.Link href="/owned-devices">My metering devices</Nav.Link>
+              <Nav.Item>
+                <Nav.Link href="/owned-devices">My metering devices</Nav.Link>
+              </Nav.Item>
             )}
-          </Nav>
-          <Nav style={{ marginLeft: "25rem" }}>
-            <Nav.Link eventKey={2} href="/">
-              {user !== null && (
-                <div>
-                  <AccountCircleIcon color="success" /> {user.firstName}{" "}
-                  {user.lastName}
-                </div>
-              )}
-            </Nav.Link>
 
+            <Nav.Item className="ml-auto">
+              <Nav.Link eventKey={2} href="/">
+                {user !== null && (
+                  <div>
+                    <AccountCircleIcon color="success" /> {user.firstName}{" "}
+                    {user.lastName}
+                  </div>
+                )}
+              </Nav.Link>
+            </Nav.Item>
             {user !== null && (
-              <Button variant="secondary" onClick={onLogOut}>
-                Log out
-              </Button>
+              <Nav.Item>
+                <Button variant="secondary" onClick={onLogOut}>
+                  Log out
+                </Button>
+              </Nav.Item>
             )}
           </Nav>
         </Navbar.Collapse>
-      </Container>
+      </Nav>
     </Navbar>
   );
 }
