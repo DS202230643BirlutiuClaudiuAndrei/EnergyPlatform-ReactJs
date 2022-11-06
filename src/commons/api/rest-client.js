@@ -8,14 +8,17 @@ function performRequest(request, callback) {
           response.json().then((json) => callback(json, response.status, null));
         }
       } else if (response.status === 401) {
-        response.json().then((json) => callback(json, response.status, null));
-      } else if (response.status === 403) {
-        response.json().then((json) => callback(json, response.status, null));
-      } else if (response.status === 409) {
-        response.json().then((json) => {
-          console.log(json);
-          callback(json, response.status, null);
+        callback(null, response.status, {
+          timeStamp: new Date(),
+          message: "Invalid password",
+          details: "",
         });
+      } else if (response.status === 403) {
+        response.json().then((json) => callback(null, response.status, json));
+      } else if (response.status === 409) {
+        response.json().then((json) => callback(null, response.status, json));
+      } else if (response.status === 404) {
+        response.json().then((json) => callback(null, response.status, json));
       }
     })
     .catch(function(err) {

@@ -16,7 +16,7 @@ function APIResponseErrorMessage(props) {
   const [error, setError] = useState(props.error);
   const [errorStatus, setErrorStatus] = useState(props.errorStatus);
   const [collapseForm, setCollapseForm] = useState(false);
-
+  console.log(props);
   function toggleForm() {
     setCollapseForm((collapseForm) => !collapseForm);
   }
@@ -24,7 +24,7 @@ function APIResponseErrorMessage(props) {
   return (
     <div>
       <UncontrolledAlert color="danger">
-        An unexpected error occurred on the server side!
+        Error to execute this action.
         {errorStatus > 0 && (
           <Button color="link" onClick={toggleForm}>
             Details...
@@ -46,7 +46,14 @@ function APIResponseErrorMessage(props) {
             <Row>
               <Col xs="3"> Time: </Col>{" "}
               <Col xs="auto" className={styles.errorText}>
-                {error.timestamp}{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                }).format(error.timestamp)}
               </Col>
             </Row>
             <Row>
