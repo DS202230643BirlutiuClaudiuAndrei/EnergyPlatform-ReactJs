@@ -6,6 +6,8 @@ WORKDIR /app
 
 # install app dependencies
 COPY package*.json /app/
+COPY public /app/
+COPY src /app/
 RUN npm cache verify
 RUN npm install 
 # add app
