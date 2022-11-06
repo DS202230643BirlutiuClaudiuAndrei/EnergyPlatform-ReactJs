@@ -5,7 +5,8 @@ FROM node:14.1-alpine as builder
 WORKDIR /app
 
 # install app dependencies
-COPY . /app/ 
+COPY package*.json /app/
+RUN cache verify
 RUN npm install 
 RUN npm install react-scripts@3.0.1 -g --silent
 # add app
