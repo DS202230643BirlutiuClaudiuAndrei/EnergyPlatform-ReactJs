@@ -9,9 +9,8 @@ function performRequest(request, callback) {
         }
       } else if (response.status === 401) {
         callback(null, response.status, "Unauthorized");
-      } else {
-        console.log(response);
-        response.json().then((err) => callback(null, response.status, err));
+      } else if (response.status === 403) {
+        callback(null, response.status, "Access denied");
       }
     })
     .catch(function(err) {

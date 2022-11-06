@@ -211,7 +211,7 @@ function DeviceAddForm(props) {
             onClick={handleSubmit}
           >
             {" "}
-            Edit{" "}
+            Add new device{" "}
           </Button>
         </Col>
       </Row>
