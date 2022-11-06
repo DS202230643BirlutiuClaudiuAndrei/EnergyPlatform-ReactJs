@@ -3,6 +3,6 @@ version: '3'
 services:
 
   react:
-    image: energyplatformclaudiubirlutiu30643.azurecr.io/claudiubirlutiu30643frontend
+    image: energyplatformclaudiubirlutiu30643.azurecr.io/claudiubirlutiu30643frontend:latest
     ports:
        - "82:82"
