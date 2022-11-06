@@ -9,7 +9,6 @@ COPY package*.json /app/
 COPY public /app/
 COPY src /app/
 RUN npm cache verify
-RUN npm cache clean
 RUN npm install 
 # add app
 COPY ./ /app/
