@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, Jumbotron } from "reactstrap";
 
 import "../commons/styles/BackgroundStyle.css";
@@ -53,6 +53,7 @@ function Home() {
             <div className="col-sm-3" />
           </div>
         </Container>
+        <div />
       </Jumbotron>
     </div>
   );
