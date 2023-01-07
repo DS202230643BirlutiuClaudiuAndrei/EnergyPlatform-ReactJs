@@ -14,7 +14,7 @@ function ChatMessageClient(props) {
   //////////////////////////////////////////////////////////////////USE EFECT
   useEffect(() => {
     var api = new JsonRpcClient({
-      endpoint: "http://localhost:8080/api/chat",
+      endpoint: HOST.backend_api + "/chat",
       headers: {
         Authorization: `Bearer ${props.token}`,
       },

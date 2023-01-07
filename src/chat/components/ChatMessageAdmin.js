@@ -38,7 +38,7 @@ function ChatMessageAdmin(props) {
   //////////////////////////////////////////////////////////////////////////////////////////
   const fetchMessages = () => {
     var api = new JsonRpcClient({
-      endpoint: "http://localhost:8080/api/chat",
+      endpoint: HOST.backend_api + "/chat",
       headers: {
         Authorization: `Bearer ${props.token}`,
       },
@@ -86,7 +86,7 @@ function ChatMessageAdmin(props) {
   ///////////////////////////////////////////////////////read messages/////
   const readMessage = (msg) => {
     var api = new JsonRpcClient({
-      endpoint: "http://localhost:8080/api/chat",
+      endpoint: HOST.backend_api + "/chat",
       headers: {
         Authorization: `Bearer ${props.token}`,
       },

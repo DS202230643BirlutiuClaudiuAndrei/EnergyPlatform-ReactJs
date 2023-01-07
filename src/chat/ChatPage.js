@@ -30,7 +30,7 @@ function ChatPage(props) {
   useEffect(() => {
     if (user != null && user.role == "ADMIN") {
       var api = new JsonRpcClient({
-        endpoint: "http://localhost:8080/api/chat",
+        endpoint: HOST.backend_api + "/chat",
         headers: {
           Authorization: `Bearer ${cookies.access_token}`,
         },

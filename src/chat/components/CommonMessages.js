@@ -19,7 +19,7 @@ function CommonMessages(props) {
   //////////////////////////////////////////////////////////////////////////////////////////
   const fetchMessages = () => {
     var api = new JsonRpcClient({
-      endpoint: "http://localhost:8080/api/chat",
+      endpoint: HOST.backend_api + "/chat",
       headers: {
         Authorization: `Bearer ${props.token}`,
       },
