@@ -27,9 +27,9 @@ function EnergyFooter() {
           <LinkedInIcon />
         </Nav.Link>{" "}
       </Nav.Item>
-      <Nav.Item style={{ justifyContent: "center" }}>
+      <Nav.Item style={{ justifyContent: "center", marginTop: "17px" }}>
         <p style={{ color: "white" }}>
-          Copyrigth © 2022 Birutiu Claudiu-Andrei. All rights reserved
+          Copyright © 2022 Birutiu Claudiu-Andrei. All rights reserved
         </p>
       </Nav.Item>
     </Navbar>

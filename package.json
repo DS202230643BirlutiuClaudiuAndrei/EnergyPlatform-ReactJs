@@ -19,6 +19,7 @@
     "react-cookie": "^4.1.1",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
+    "react-jsonrpc-client": "^1.0.0",
     "react-moment": "^0.8.4",
     "react-router-dom": "^5.3.4",
     "react-scripts": "2.1.3",

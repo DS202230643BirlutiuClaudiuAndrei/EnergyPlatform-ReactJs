@@ -20,18 +20,13 @@ import { HOST } from "./commons/hosts";
 import SockJsClient from "react-stomp";
 import Swal from "sweetalert2";
 
-const textStyle = {
-  color: "white",
-  textDecoration: "none",
-};
-
 function NavigationBar() {
   const user = useUser();
   const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
   const history = useHistory();
   const [updateNotification, setUpdateNotification] = useState(false);
-
   const [notifications, setNotifications] = useState([]);
+  const [sockReadMessage, setSockReadMessage] = useState(null);
 
   const onLogOut = () => {
     console.log(cookies.access_token);
@@ -43,7 +38,6 @@ function NavigationBar() {
   ///////////////////////////////////////////WEB SOCKET///////////////////////////////////////////
   let onConnected = () => {
     setUpdateNotification(!updateNotification);
-    console.log("Connected!!");
   };
 
   let onMessageReceived = (notification) => {
@@ -84,6 +78,17 @@ function NavigationBar() {
   const handleShow = () => setShow(true);
   const [unread, setUnread] = useState(false);
   //////////////////////////////////////////////////////////////////////////////////////////////////////
+  const handleReadMessage = (msg) => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Your message has been read by admin",
+      showConfirmButton: false,
+      timer: 3500,
+    }).then(() => {
+      window.location.reload(false);
+    });
+  };
   return (
     <div>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
@@ -108,9 +113,20 @@ function NavigationBar() {
                   <Nav.Link href="/metering-devices">Metering devices</Nav.Link>
                 </Nav.Item>
               )}
+
               {user !== null && user.role === "CLIENT" && (
                 <Nav.Item>
                   <Nav.Link href="/owned-devices">My metering devices</Nav.Link>
+                </Nav.Item>
+              )}
+              {user !== null && (
+                <Nav.Item>
+                  <Nav.Link href="/chat">Chat</Nav.Link>
+                </Nav.Item>
+              )}
+              {user !== null && (
+                <Nav.Item>
+                  <Nav.Link href="/common-chat">Group-chat</Nav.Link>
                 </Nav.Item>
               )}
 
@@ -157,11 +173,11 @@ function NavigationBar() {
           url={HOST.webSocketApi}
           topics={["/queue/alert." + user.id]}
           onConnect={onConnected}
-          onDisconnect={console.log("Disconnected!")}
           onMessage={(msg) => onMessageReceived(msg)}
           debug={false}
         />
       )}
+
       <Modal
         show={show}
         onHide={handleClose}
@@ -190,6 +206,23 @@ function NavigationBar() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {user !== null && (
+        <SockJsClient
+          url={HOST.webSocketApi}
+          topics={["/topic/" + user.id + "/readMessages"]}
+          onConnect={() => {}}
+          onMessage={(msg) => {
+            handleReadMessage(msg);
+          }}
+          debug={false}
+          ref={(client) => {
+            {
+              setSockReadMessage(client);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

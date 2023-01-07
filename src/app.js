@@ -12,6 +12,8 @@ import ProtectedRoute from "./commons/protectedRoute/ProtectedRoute.js";
 import MeterDeviceContainer from "./device_management/MeterDeviceContainer";
 import ClientDevicesContainer from "./clientui/containers/ClientDevicesContainer";
 import EnergyFooter from "./footer";
+import ChatPage from "./chat/ChatPage";
+import CommonChat from "./chat/CommonChat";
 /*
     Namings: https://reactjs.org/docs/jsx-in-depth.html#html-tags-vs.-react-components
     Should I use hooks?: https://reactjs.org/docs/hooks-faq.html#should-i-use-hooks-classes-or-a-mix-of-both
@@ -66,6 +68,8 @@ function App() {
             />
 
             <Route exact path="/login" render={() => <LoginPage />} />
+            <Route exact path="/chat" render={() => <ChatPage />} />
+            <Route exact path="/common-chat" render={() => <CommonChat />} />
 
             {/*Error*/}
             <Route exact path="/error" render={() => <ErrorPage />} />
