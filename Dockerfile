@@ -7,7 +7,6 @@ WORKDIR /app
 # install app dependencies
 COPY . /app/ 
 RUN npm install 
-RUN npm install react-scripts@3.0.1 -g
 # add app
 COPY ./ /app/
 # start app
@@ -20,5 +19,5 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d
 
 # Start nginx
-EXPOSE 82
+EXPOSE 3000
 CMD ["nginx", "-g", "daemon off;"]
